@@ -258,7 +258,7 @@
 // Svaki red ima tanku liniju ispod. Lista stoji na sredini slobodnog prostora.
 // Veličina slova prati i visinu ekrana, da svih pet stavki stane i na niskom telefonu.
 .overlayNav {
-  --fs: clamp(32px, min(10.4vw, 6.2svh), 56px);
+  --fs: clamp(26px, min(8vw, 4.8svh), 44px);
   --py: clamp(12px, 2.6svh, 26px);
 
   margin: auto 0;

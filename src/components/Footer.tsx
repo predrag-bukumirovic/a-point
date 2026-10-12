@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getDictionary } from "@/content";
 import { CONTACT, LEGAL_NAME, localePath, telHref, whatsappHref, type Locale } from "@/content/site";
+import CookieSettingsButton from "./CookieSettingsButton";
 import Logo from "./Logo";
 import styles from "./Footer.module.scss";
 
@@ -33,6 +34,8 @@ export default function Footer({ locale }: { locale: Locale }) {
             <Link href={localePath(locale, "/privacy")} className={styles.credit}>
               {footer.privacy}
             </Link>
+            <span aria-hidden="true"> · </span>
+            <CookieSettingsButton label={footer.cookies} className={styles.credit} />
             <span aria-hidden="true"> · </span>
             {footer.credit.label}{" "}
             <a href={footer.credit.href} target="_blank" rel="noopener" className={styles.credit}>

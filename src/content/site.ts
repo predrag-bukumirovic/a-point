@@ -37,6 +37,13 @@ export const whatsappHref = (number: string, text: string) =>
 /** Poštanska adresa (sa starog sajta). */
 export const POSTAL = { box: "331208", city: "Ras Al Khaimah", country: "AE" };
 
+/**
+ * Google Analytics (ID oblika „G-XXXXXXX“, u .env.local kao NEXT_PUBLIC_GA_ID).
+ * Učitava se samo uz pristanak posetioca; dok ID nije upisan, ne učitava se uopšte.
+ */
+const gaId = process.env.NEXT_PUBLIC_GA_ID || "";
+export const GA_ID = /^G-[A-Z0-9]+$/.test(gaId) ? gaId : "";
+
 /** Domen sajta (SEO, sitemap, deljenje linkova); može se promeniti preko NEXT_PUBLIC_SITE_URL. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.a-pnt.com").replace(/\/$/, "");
 

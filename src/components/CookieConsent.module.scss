@@ -1,0 +1,265 @@
+// Kartica u donjem uglu (na telefonu preko cele širine): iznad menija i WhatsApp dugmeta,
+// ispod otvorenog mobilnog menija. Pojavljuje se tek kad se smiri uvodna animacija strane.
+.panel {
+  --hairline: rgba(31, 30, 27, 0.12);
+
+  position: fixed;
+  inset-inline-start: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 45;
+  width: min(400px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100svh - 2 * var(--gutter));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px;
+  background: var(--cream);
+  color: var(--ink);
+  border: 1px solid rgba(31, 30, 27, 0.08);
+  box-shadow: 0 24px 60px rgba(20, 19, 17, 0.18);
+  outline: none;
+  animation: enter 1s var(--ease) 1.5s both;
+
+  // Otvorena iz futera: bez čekanja.
+  &.now {
+    animation-delay: 0s;
+  }
+
+  &.leaving {
+    animation: leave 0.45s var(--ease) both;
+    pointer-events: none;
+  }
+}
+
+// Prelaz između uvoda i podešavanja.
+.view {
+  animation: fade 0.6s var(--ease) both;
+}
+
+.title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-variation-settings: "wdth" 80;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+.text {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+
+  a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.4s var(--ease);
+
+    &:hover {
+      border-color: var(--ink);
+    }
+  }
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.primary,
+.secondary {
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.4s var(--ease),
+    color 0.4s var(--ease);
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--cream);
+
+  &:hover {
+    background: #000;
+  }
+}
+
+.secondary:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.more {
+  margin-top: 18px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: opacity 0.4s var(--ease);
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+/* ---------- Podešavanja ---------- */
+
+.list {
+  margin-top: 18px;
+  border-bottom: 1px solid var(--hairline);
+
+  li {
+    padding: 16px 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  p {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 22px;
+
+  h3 {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+.always {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+// Prekidač: kružić klizi udesno i traka se zatamni kad je uključen.
+.switch {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 22px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: background-color 0.4s var(--ease);
+
+  // Veća površina za prst
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -11px -4px;
+  }
+
+  span {
+    position: absolute;
+    top: 3px;
+    inset-inline-start: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--ink);
+    transition:
+      transform 0.4s var(--ease),
+      background-color 0.4s var(--ease);
+  }
+
+  &[aria-checked="true"] {
+    background: var(--ink);
+
+    span {
+      background: var(--cream);
+      transform: translateX(18px);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .panel {
+    inset-inline: 10px;
+    bottom: 10px;
+    width: auto;
+    max-height: calc(100svh - 20px);
+    padding: 24px 20px 20px;
+  }
+}
+
+:global([dir="rtl"]) {
+  .title {
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+
+  .text {
+    line-height: 1.75;
+  }
+
+  .primary,
+  .secondary,
+  .more,
+  .row h3,
+  .always {
+    letter-spacing: 0;
+  }
+
+  .switch[aria-checked="true"] span {
+    transform: translateX(-18px);
+  }
+}
+
+// Bez pokreta, ali sa kratkim krajem animacije (po njemu se kartica uklanja).
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel.leaving,
+  .view {
+    animation-duration: 0.01s;
+    animation-delay: 0s;
+  }
+}
+
+@media print {
+  .panel {
+    display: none;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes leave {
+  to {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

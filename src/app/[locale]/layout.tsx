@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Arabic, Geist, Noto_Naskh_Arabic, Noto_Serif_Display } from "next/font/google";
 import { notFound } from "next/navigation";
+import Analytics from "@/components/Analytics";
+import CookieConsent from "@/components/CookieConsent";
 import JsonLd from "@/components/JsonLd";
 import { getDictionary } from "@/content";
 import { BRAND, LOCALES, SITE_URL, dirOf, isLocale } from "@/content/site";
@@ -75,6 +77,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         </noscript>
         <JsonLd locale={locale} />
         {children}
+        {/* U layout-u, a ne u SiteFrame-u: kartica ostaje otvorena (i ne animira se ponovo) pri prelasku na drugu stranu. */}
+        <CookieConsent locale={locale} t={getDictionary(locale).cookies} />
+        <Analytics />
       </body>
     </html>
   );

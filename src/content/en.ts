@@ -432,7 +432,11 @@ export const en = {
       },
       {
         title: "What we collect",
-        text: "We only collect the information you choose to send us — for example your name, phone number, email address and message when you send an enquiry through the contact form or contact us by email, phone, WhatsApp or Instagram. This website does not use analytics or advertising cookies; a single functional cookie remembers the language you chose.",
+        text: "We only collect the information you choose to send us — for example your name, phone number, email address and message when you send an enquiry through the contact form or contact us by email, phone, WhatsApp or Instagram.",
+      },
+      {
+        title: "Cookies",
+        text: "Necessary cookies remember the language you chose and your cookie choice; the site does not work properly without them. With your consent we also use Google Analytics cookies (_ga, _ga_*) to see, in aggregate, which pages are visited and on which devices, so we can improve the site. Analytics cookies are set only if you accept them, and you can change your choice at any time under “Cookie settings” at the bottom of every page. We do not use advertising cookies.",
       },
       {
         title: "How we use it",
@@ -440,7 +444,7 @@ export const en = {
       },
       {
         title: "Third-party services",
-        text: "Enquiries sent through the contact form are delivered to us by email through an email service provider. If you contact us through WhatsApp or Instagram, those services process your messages under their own privacy policies.",
+        text: "Enquiries sent through the contact form are delivered to us by email through an email service provider. If you contact us through WhatsApp or Instagram, those services process your messages under their own privacy policies. If you accept analytics cookies, Google Analytics, a service provided by Google, processes visit data under Google's privacy policy.",
       },
       {
         title: "Your rights",
@@ -459,6 +463,28 @@ export const en = {
     cta: "Back to home",
   },
 
+  cookies: {
+    title: "Cookies",
+    policy: {
+      text: "Necessary cookies keep the site working. With your consent we also use analytics cookies to see how the site is used and improve it. More in our",
+      link: "privacy policy",
+    },
+    acceptAll: "Accept all",
+    necessaryOnly: "Necessary only",
+    settings: "Settings",
+    settingsTitle: "Cookie settings",
+    necessary: {
+      title: "Necessary",
+      status: "Always on",
+      text: "Remember the language you chose and your cookie choice. The site does not work properly without them.",
+    },
+    analytics: {
+      title: "Analytics",
+      text: "Google Analytics: aggregated visit data — which pages are read and on which devices — so we can improve the site.",
+    },
+    save: "Save choice",
+  },
+
   footer: {
     menuLabel: "Menu",
     followLabel: "Follow",
@@ -467,6 +493,7 @@ export const en = {
     marquee: "Let's talk",
     rights: "All rights reserved.",
     privacy: "Privacy policy",
+    cookies: "Cookie settings",
     credit: { label: "Website by", name: "SCAONS", href: "https://scaons.com" },
   },
 };
