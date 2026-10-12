@@ -32,7 +32,7 @@
   background: transparent;
   outline: none;
   padding: 2px 0 12px;
-  font-size: clamp(15px, 1.05vw, 18px);
+  font-size: 16px
   color: var(--ink);
   transition: border-color 0.4s var(--ease);
 
@@ -54,8 +54,10 @@
   cursor: pointer;
   // Strelica padajuće liste
   background:
-    linear-gradient(45deg, transparent 50%, currentColor 50%) right 6px top 9px / 6px 6px no-repeat,
-    linear-gradient(135deg, currentColor 50%, transparent 50%) right 0 top 9px / 6px 6px no-repeat;
+    linear-gradient(45deg, transparent 50%, currentColor 50%) right 6px top
+      9px / 6px 6px no-repeat,
+    linear-gradient(135deg, currentColor 50%, transparent 50%) right 0 top 9px /
+      6px 6px no-repeat;
   padding-inline-end: 24px;
 }
 
