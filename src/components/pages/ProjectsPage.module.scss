@@ -1,0 +1,132 @@
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px var(--gutter);
+  padding: calc(var(--header-h) + clamp(56px, 10svh, 120px)) var(--gutter) clamp(48px, 8svh, 96px);
+
+  :global(.heading) {
+    margin-top: 12px;
+    font-size: clamp(48px, 7.4vw, 150px);
+  }
+}
+
+.text {
+  max-width: 380px;
+  padding-bottom: 0.6vw;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 8svh, 100px) var(--gutter);
+  padding: 0 var(--gutter) clamp(90px, 14svh, 170px);
+}
+
+// Druga kolona je spuštena, kao u časopisu.
+.item:nth-child(even) {
+  margin-top: clamp(80px, 14vw, 260px);
+}
+
+.card {
+  display: block;
+}
+
+.archive {
+  padding: clamp(40px, 6svh, 80px) var(--gutter) clamp(90px, 14svh, 170px);
+  border-top: 1px solid var(--line);
+}
+
+.archiveHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px var(--gutter);
+  margin: clamp(40px, 6svh, 70px) 0 clamp(32px, 5svh, 56px);
+
+  :global(.heading) {
+    margin-top: 12px;
+  }
+
+  :global(.body-text) {
+    max-width: 380px;
+  }
+}
+
+.image {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--cream);
+
+  img {
+    object-fit: cover;
+    transition: transform 1.4s var(--ease) !important;
+  }
+}
+
+.card:hover .image img {
+  transform: scale(1.04);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.title {
+  margin-top: 10px;
+  font-family: var(--serif);
+  font-variation-settings: "wdth" 80;
+  font-weight: 400;
+  font-size: clamp(30px, 3vw, 58px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  :global(.arrow) {
+    width: 18px;
+    transition: transform 0.5s var(--ease);
+  }
+}
+
+.card:hover .more :global(.arrow) {
+  transform: translateX(6px);
+}
+
+:global([dir="rtl"]) {
+  .title {
+    line-height: 1.25;
+  }
+
+  .card:hover .more :global(.arrow) {
+    transform: scaleX(-1) translateX(6px);
+  }
+}
+
+@media (max-width: 900px) {
+  .head,
+  .grid,
+  .archiveHead {
+    grid-template-columns: 1fr;
+  }
+
+  .item:nth-child(even) {
+    margin-top: 0;
+  }
+}

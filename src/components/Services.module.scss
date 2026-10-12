@@ -27,14 +27,22 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(38, 27, 19, 0.66);
+  background: rgba(28, 27, 25, 0.64);
 }
 
+// Uvod ne sme da prekrije kartice ispod sebe (inače ne reaguju na miša):
+// visok je koliko i sadržaj, a prazan prostor oko teksta propušta klikove.
 .intro {
   position: relative;
   grid-area: 1 / 1;
+  align-self: start;
   z-index: 1;
   max-width: 46vw;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 
   :global(.label) {
     color: rgba(255, 255, 255, 0.72);
@@ -91,21 +99,18 @@
   outline: none;
 }
 
-.num {
-  position: absolute;
-  top: calc(var(--cw) * 0.073);
-  left: calc(var(--cw) * 0.073);
-  font-size: 13px;
-  color: var(--muted);
-}
-
+// Velika slika; na prelaz mišem se smanji ka gornjem uglu i oslobodi mesto za opis.
 .image {
   position: relative;
   align-self: flex-end;
-  width: 47%;
-  aspect-ratio: 190 / 250;
+  width: 74%;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   transform-origin: top right;
+
+  :global([dir="rtl"]) & {
+    transform-origin: top left;
+  }
   transition: transform 0.8s var(--ease);
 
   img {
@@ -145,7 +150,7 @@
   .card:hover,
   .card:focus-visible {
     .image {
-      transform: scale(0.78);
+      transform: scale(0.56);
     }
 
     .desc {
@@ -161,6 +166,11 @@
 }
 
 @media (hover: none) {
+  // Na dodir je opis uvek vidljiv, pa je slika manja.
+  .image {
+    width: 56%;
+  }
+
   .desc {
     grid-template-rows: 1fr;
 
@@ -232,11 +242,6 @@
     gap: 24px;
     padding: 20px;
     scroll-snap-align: start;
-  }
-
-  .num {
-    top: 20px;
-    left: 20px;
   }
 
   .cardText h3 {

@@ -8,6 +8,7 @@
 }
 
 .head {
+  position: relative;
   text-align: center;
 
   :global(.label) {
@@ -27,6 +28,15 @@
   grid-template-columns: 40% 1fr 19%;
   gap: 2.2vw;
   margin-top: clamp(24px, 3.4svh, 44px);
+}
+
+.all {
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 4px;
+  min-width: 0;
+  gap: 16px;
+  font-size: 13px;
 }
 
 /* ---------- Slike ---------- */
@@ -80,8 +90,7 @@
   min-height: 0;
 }
 
-.place,
-.counter {
+.place {
   font-size: 13px;
   color: var(--muted);
 }
@@ -107,6 +116,20 @@
 
 .note {
   color: var(--ink);
+}
+
+.title a {
+  transition: opacity 0.4s var(--ease);
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.view {
+  margin-top: clamp(16px, 2.2svh, 28px);
+  min-width: min(260px, 100%);
+  font-size: 13px;
 }
 
 .textEnter {
@@ -163,6 +186,11 @@
   transform: scaleX(-1);
 }
 
+// Na arapskom globalno pravilo okreće sve strelice; „prethodni“ se zato vraća u osnovni smer.
+:global([dir="rtl"]) .arrows .flip {
+  transform: none;
+}
+
 @media (max-width: 900px) {
   .projects {
     height: auto;
@@ -184,31 +212,23 @@
     margin-top: 12px;
   }
 
+  .all {
+    position: static;
+    margin-top: 18px;
+  }
+
   .note {
     margin-top: 16px;
   }
 
   .side {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 16px;
-  }
-
-  .counter {
-    grid-row: 1;
-    grid-column: 1;
-    align-self: center;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 
   .detail,
   .caption {
     display: none;
-  }
-
-  .arrows {
-    grid-row: 1;
-    grid-column: 2;
   }
 }
 

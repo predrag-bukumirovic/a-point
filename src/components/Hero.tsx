@@ -1,11 +1,11 @@
 import { getImageProps } from "next/image";
-import { sr } from "@/content/sr";
+import { getDictionary } from "@/content";
+import { localePath, type Locale } from "@/content/site";
 import { Heading, TextLink } from "./ui";
 import styles from "./Hero.module.scss";
 
-const { hero } = sr;
-
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const { hero } = getDictionary(locale).home;
   // Široka slika za desktop, uska (portret) za telefon.
   const common = { alt: hero.image.alt, sizes: "100vw", loading: "eager", fetchPriority: "high" } as const;
   const { props: { srcSet: wide } } = getImageProps({ ...common, src: hero.image.wide });
@@ -24,7 +24,7 @@ export default function Hero() {
         <Heading as="h1" lines={hero.lines} className={styles.title} />
         <div className={styles.bottom}>
           <p>{hero.text}</p>
-          <TextLink href={hero.cta.href} label={hero.cta.label} />
+          <TextLink href={localePath(locale, hero.cta.href)} label={hero.cta.label} />
         </div>
       </div>
     </section>

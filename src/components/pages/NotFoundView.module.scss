@@ -1,0 +1,20 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  min-height: 80svh;
+  justify-content: center;
+  padding: calc(var(--header-h) + 60px) var(--gutter) 100px;
+
+  :global(.body-text) {
+    max-width: 440px;
+  }
+}
+
+.code {
+  font-family: var(--serif);
+  font-size: clamp(90px, 16vw, 280px);
+  line-height: 0.85;
+  color: var(--sand);
+}

@@ -1,21 +1,26 @@
 :root {
-  --ink: #2b1d13;
-  --text: #6f665e;
-  --muted: #8d847c;
-  --line: #bdb5ad;
+  --ink: #1f1e1b;
+  --text: #67635d;
+  --muted: #8a867f;
+  --line: #bab5ad;
   --paper: #ffffff;
-  --cream: #f4efe8;
-  --sand: #d9cbb8;
-  --dark: #261b13;
+  --cream: #f1eee9;
+  --sand: #d5cec3;
+  --dark: #1c1b19;
 
   --gutter: clamp(16px, 2.1vw, 40px);
-  --header-h: 62px; // fiksirani meni posle skrola
+  --header-h: 64px; // fiksirani meni posle skrola
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --h-section: clamp(38px, 5.2vw, 104px);
 
   --serif: var(--font-serif), "Times New Roman", serif;
-  --script: var(--font-script), cursive;
   --sans: var(--font-sans), system-ui, sans-serif;
+}
+
+// Arapski: naslovi u Naskh pismu, tekst u IBM Plex Sans Arabic; latinica (A Point, brojevi) ostaje u istim fontovima.
+:root[lang="ar"] {
+  --serif: var(--font-serif-ar), var(--font-serif), serif;
+  --sans: var(--font-sans-ar), var(--font-sans), system-ui, sans-serif;
 }
 
 *,
@@ -93,16 +98,6 @@ ul {
   text-transform: uppercase;
 }
 
-.swash {
-  font-family: var(--script);
-  font-variation-settings: normal;
-  font-size: 1.3em;
-  line-height: 0;
-  letter-spacing: 0;
-  text-transform: none;
-  margin-right: -0.04em;
-}
-
 .label {
   font-size: 13px;
   letter-spacing: 0.02em;
@@ -136,6 +131,39 @@ ul {
 
   &:hover svg {
     transform: translateX(6px);
+  }
+}
+
+/* ---------- Arapski (zdesna nalevo) ---------- */
+
+// Strelice „napred“ pokazuju ulevo.
+[dir="rtl"] .arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .text-link:hover svg {
+  transform: scaleX(-1) translateX(6px);
+}
+
+// Arapsko pismo ne trpi razmak između slova i traži više prostora između redova.
+[dir="rtl"] {
+  .label,
+  .text-link {
+    letter-spacing: 0;
+  }
+
+  .heading {
+    font-weight: 500;
+    line-height: 1.22;
+    letter-spacing: 0;
+  }
+
+  .line {
+    clip-path: inset(-0.9em -1em -0.6em -1em);
+  }
+
+  .body-text {
+    line-height: 1.75;
   }
 }
 

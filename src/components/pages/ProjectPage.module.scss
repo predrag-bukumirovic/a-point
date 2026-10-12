@@ -1,0 +1,145 @@
+.overview {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--gutter);
+  padding: clamp(80px, 13svh, 160px) var(--gutter) clamp(70px, 11svh, 130px);
+}
+
+.facts {
+  align-self: start;
+  border-top: 1px solid var(--line);
+
+  div {
+    display: grid;
+    grid-template-columns: 9em 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  dt {
+    color: var(--muted);
+  }
+}
+
+.story {
+  max-width: 820px;
+
+  :global(.body-text) {
+    max-width: 640px;
+    margin-top: 18px;
+  }
+}
+
+.summary {
+  margin-bottom: clamp(28px, 3.4vw, 52px);
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.3vw, 44px);
+  line-height: 1.2;
+}
+
+.gallery {
+  padding: 0 var(--gutter) clamp(80px, 12svh, 150px);
+}
+
+.film {
+  padding: 0 var(--gutter) clamp(80px, 12svh, 150px);
+
+  video {
+    display: block;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 18px;
+    aspect-ratio: 848 / 480;
+    background: var(--dark);
+  }
+}
+
+.next {
+  padding: 0 var(--gutter) clamp(80px, 12svh, 140px);
+}
+
+.nextLink {
+  position: relative;
+  display: block;
+  height: clamp(320px, 62svh, 620px);
+  overflow: hidden;
+  color: #fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 23, 21, 0.48);
+    transition: background-color 0.8s var(--ease);
+  }
+
+  &:hover::after {
+    background: rgba(24, 23, 21, 0.3);
+  }
+}
+
+.nextImage {
+  position: absolute;
+  inset: 0;
+}
+
+.nextImage img {
+  object-fit: cover;
+  transition: transform 1.6s var(--ease);
+
+  .nextLink:hover & {
+    transform: scale(1.04);
+  }
+}
+
+.nextContent {
+  position: absolute;
+  inset: auto var(--gutter) clamp(28px, 5svh, 56px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nextLabel,
+.nextMeta {
+  font-size: 13px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.nextTitle {
+  font-family: var(--serif);
+  font-variation-settings: "wdth" 80;
+  font-size: clamp(44px, 6.4vw, 130px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.back {
+  margin-top: 32px;
+}
+
+:global([dir="rtl"]) {
+  .nextTitle {
+    line-height: 1.25;
+  }
+
+  .nextLabel,
+  .nextMeta {
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .overview {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .facts div {
+    grid-template-columns: 8em 1fr;
+  }
+}

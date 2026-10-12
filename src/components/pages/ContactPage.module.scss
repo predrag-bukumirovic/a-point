@@ -1,0 +1,203 @@
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(40px, 5vw, 96px);
+  align-items: start;
+  padding: calc(var(--header-h) + clamp(56px, 10svh, 120px)) var(--gutter) clamp(80px, 12svh, 140px);
+}
+
+.intro {
+  :global(.heading) {
+    margin-top: 12px;
+  }
+
+  > :global(.body-text) {
+    max-width: 440px;
+    margin-top: clamp(24px, 3vw, 44px);
+  }
+}
+
+.block {
+  margin-top: clamp(40px, 5vw, 72px);
+}
+
+.studios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px clamp(36px, 5vw, 90px);
+  margin-top: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.city {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(24px, 2vw, 36px);
+  line-height: 1.1;
+}
+
+.country,
+.address {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.address {
+  max-width: 240px;
+  color: var(--text);
+}
+
+.postal {
+  margin-top: 14px;
+  font-size: clamp(15px, 1.05vw, 18px);
+  line-height: 1.55;
+
+  span {
+    display: block;
+  }
+}
+
+.directors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px var(--gutter);
+  margin-top: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+
+  a {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.4s var(--ease);
+
+    &:hover {
+      border-color: var(--ink);
+    }
+  }
+}
+
+.directorName {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(20px, 1.5vw, 26px);
+  line-height: 1.15;
+}
+
+// Forma u svetloj kartici, uz desnu ivicu.
+.formCard {
+  padding: clamp(28px, 3.4vw, 56px);
+  background: var(--cream);
+
+  :global(.label) + :global(.heading) {
+    margin-top: 10px;
+  }
+}
+
+.formTitle {
+  margin-bottom: clamp(32px, 4vw, 56px);
+  font-size: clamp(34px, 3.4vw, 64px);
+}
+
+.faq {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gutter);
+  padding: clamp(70px, 11svh, 140px) var(--gutter) clamp(90px, 14svh, 170px);
+  border-top: 1px solid var(--line);
+}
+
+.faqHead :global(.heading) {
+  margin-top: 12px;
+}
+
+.faqMedia {
+  width: min(70%, 420px);
+  margin-top: clamp(40px, 6svh, 72px);
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.questions {
+  align-self: start;
+  border-top: 1px solid var(--line);
+
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(20px, 2.2vw, 30px) 0;
+    font-family: var(--serif);
+    font-size: clamp(20px, 1.6vw, 28px);
+    line-height: 1.25;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  p {
+    max-width: 560px;
+    padding-bottom: clamp(22px, 2.4vw, 32px);
+    font-size: clamp(14px, 1vw, 17px);
+    line-height: 1.6;
+    color: var(--text);
+  }
+}
+
+// Plus koji se pretvara u minus.
+.plus {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease);
+  }
+
+  &::after {
+    transform: rotate(90deg);
+  }
+
+  details[open] &::after {
+    transform: rotate(0deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .top,
+  .faq {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .formCard {
+    margin: 0 calc(-1 * var(--gutter));
+  }
+}

@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gutter);
-  padding: clamp(80px, 11svh, 130px) var(--gutter) clamp(100px, 18svh, 200px);
+  padding: clamp(80px, 11svh, 130px) var(--gutter) clamp(100px, 16svh, 180px);
   background: var(--paper);
 }
 
@@ -13,86 +13,102 @@
   }
 
   :global(.body-text) {
-    max-width: 420px;
+    max-width: 440px;
     margin-top: clamp(28px, 3.4vw, 56px);
   }
 }
 
-.email {
-  display: inline-block;
-  margin-top: 20px;
-  font-size: 15px;
+.studios {
+  margin-top: clamp(40px, 5vw, 80px);
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px clamp(32px, 4vw, 72px);
+    margin-top: 16px;
+  }
+}
+
+.city {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.2vw, 40px);
+  line-height: 1.1;
+}
+
+.country {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.side {
+  padding-top: 6px;
+}
+
+.methods {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.method {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.6fr) 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(18px, 2vw, 28px) 0;
   border-bottom: 1px solid var(--line);
-  transition: border-color 0.4s var(--ease);
+  transition: padding 0.5s var(--ease);
 
   &:hover {
-    border-color: var(--ink);
+    padding-inline-start: 12px;
+
+    .methodArrow {
+      transform: translateX(6px);
+    }
   }
 }
 
-.form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 3.4vw, 56px) 22px;
-  align-content: start;
-  padding-top: 12px;
+.methodLabel {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.full {
-  grid-column: 1 / -1;
+.methodValue {
+  font-family: var(--serif);
+  font-size: clamp(22px, 1.9vw, 34px);
+  line-height: 1.15;
+  word-break: break-word;
 }
 
-.field input,
-.message textarea {
-  width: 100%;
-  background: transparent;
-  outline: none;
-  font-size: clamp(15px, 1.05vw, 18px);
-  color: var(--ink);
+// RTL: tekst je s desna, ali brojevi i adrese ostaju LTR (dir="ltr"), pa ih poravnavamo na početak reda.
+.methodValue[dir="ltr"] {
+  text-align: start;
+}
 
-  &::placeholder {
-    color: var(--muted);
+.methodArrow {
+  transition: transform 0.5s var(--ease);
+}
+
+.enquiry {
+  margin-top: clamp(32px, 4vw, 52px);
+}
+
+:global([dir="rtl"]) {
+  .methodValue[dir="ltr"] {
+    text-align: right;
   }
-}
 
-.field input {
-  padding: 4px 4px 12px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  transition: border-color 0.4s var(--ease);
-
-  &:focus {
-    border-color: var(--ink);
+  .method:hover .methodArrow {
+    transform: scaleX(-1) translateX(6px);
   }
-}
 
-.message textarea {
-  display: block;
-  min-height: 120px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  resize: vertical;
-  transition: border-color 0.4s var(--ease);
-
-  &:focus {
-    border-color: var(--ink);
+  .methodLabel {
+    letter-spacing: 0;
   }
-}
-
-.submit {
-  margin-top: 8px;
-  min-width: 320px;
-}
-
-.sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
@@ -103,12 +119,12 @@
     padding-bottom: 80px;
   }
 
-  .form {
-    grid-template-columns: 1fr;
+  .method {
+    grid-template-columns: 1fr auto;
+    gap: 6px 16px;
   }
 
-  .submit {
-    min-width: 0;
-    width: 100%;
+  .methodLabel {
+    grid-column: 1 / -1;
   }
 }

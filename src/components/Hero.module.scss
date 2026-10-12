@@ -19,8 +19,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(29, 20, 13, 0.35) 0%, rgba(29, 20, 13, 0) 22%),
-    rgba(43, 31, 22, 0.56);
+    linear-gradient(180deg, rgba(20, 19, 17, 0.4) 0%, rgba(20, 19, 17, 0) 24%),
+    linear-gradient(0deg, rgba(20, 19, 17, 0.35) 0%, rgba(20, 19, 17, 0) 45%),
+    rgba(24, 23, 21, 0.52);
   animation: fadeIn 1.6s ease 0.25s both;
 }
 
@@ -44,11 +45,11 @@
   white-space: nowrap;
 
   :global(.line):nth-child(2) {
-    margin-left: 2.2em;
+    margin-inline-start: 2.2em;
   }
 
   :global(.line):nth-child(3) {
-    margin-left: 0.9em;
+    margin-inline-start: 0.9em;
   }
 
   :global(.line) > span {
@@ -58,7 +59,8 @@
 }
 
 .bottom {
-  margin: clamp(20px, 2.4vw, 40px) 0 0 calc(var(--fs) * 0.9);
+  margin-top: clamp(20px, 2.4vw, 40px);
+  margin-inline-start: calc(var(--fs) * 0.9);
   max-width: 330px;
   animation: fadeUp 1.2s var(--ease) 1.2s both;
 
@@ -90,17 +92,21 @@
   .title {
 
     :global(.line):nth-child(2) {
-      margin-left: 0.9em;
+      margin-inline-start: 0.9em;
     }
 
     :global(.line):nth-child(3) {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 
   .bottom {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
+}
+
+:global([dir="rtl"]) .title {
+  line-height: 1.25;
 }
 
 @keyframes zoomOut {

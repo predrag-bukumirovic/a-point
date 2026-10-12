@@ -1,0 +1,192 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vw, 28px);
+}
+
+.row {
+  display: grid;
+  gap: clamp(12px, 1.6vw, 28px);
+}
+
+.pair {
+  grid-template-columns: 1fr 1fr;
+
+  .thumb {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.triple {
+  grid-template-columns: repeat(3, 1fr);
+
+  .thumb {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+.portrait .thumb {
+  aspect-ratio: 4 / 5;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--cream);
+  cursor: zoom-in;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 1.2s var(--ease);
+  }
+
+  & img[data-nimg="fill"] {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* ---------- Uvećana slika ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(14, 14, 13, 0.97);
+  color: var(--cream);
+
+  &::backdrop {
+    background: rgba(14, 14, 13, 0.6);
+  }
+
+  &[open] {
+    animation: fade 0.4s ease both;
+  }
+}
+
+.figure {
+  position: absolute;
+  inset: clamp(56px, 8svh, 90px) clamp(16px, 7vw, 120px) clamp(64px, 9svh, 96px);
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+}
+
+.full {
+  object-fit: contain;
+  animation: fade 0.5s ease both;
+}
+
+.caption {
+  position: absolute;
+  inset: auto 0 calc(-1 * clamp(44px, 6svh, 64px));
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 13px;
+  color: rgba(241, 238, 233, 0.75);
+}
+
+.close {
+  position: absolute;
+  top: clamp(16px, 2.4svh, 28px);
+  inset-inline-end: var(--gutter);
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border: 1px solid rgba(241, 238, 233, 0.3);
+  border-radius: 50%;
+  transition:
+    background-color 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+
+  &:hover {
+    background: rgba(241, 238, 233, 0.12);
+    border-color: rgba(241, 238, 233, 0.6);
+  }
+
+  svg {
+    width: 16px;
+  }
+}
+
+.prev {
+  inset-inline-start: clamp(8px, 2vw, 40px);
+}
+
+.next {
+  inset-inline-end: clamp(8px, 2vw, 40px);
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+:global([dir="rtl"]) {
+  .nav .flip {
+    transform: none;
+  }
+
+  .close {
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .pair {
+    grid-template-columns: 1fr;
+  }
+
+  .triple {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .portrait {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nav {
+    top: auto;
+    bottom: 14px;
+    margin-top: 0;
+  }
+
+  .caption {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

@@ -10,9 +10,15 @@ export const getLenis = () => lenis;
 /**
  * Glatki skrol (Lenis), otkrivanje sadržaja pri skrolu ([data-reveal] dobija
  * klasu .is-in) i merenje visine zakačenih sekcija ([data-pin] → --pin-h).
+ * Postoji na svakoj strani, pa se sve ovo ponovo podešava pri promeni strane.
  */
 export default function SmoothScroll() {
   useEffect(() => {
+    // Svaka strana kreće od vrha — i posle osvežavanja i dugmeta „nazad“
+    // (pregledač inače vraća staru poziciju, pa strana počinje od sredine).
+    history.scrollRestoration = "manual";
+    if (!location.hash) window.scrollTo(0, 0);
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduceMotion) {
       lenis = new Lenis({ autoRaf: true, anchors: true, lerp: 0.09 });

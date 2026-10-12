@@ -1,14 +1,15 @@
-import { EMAIL, INSTAGRAM_URL, sr } from "@/content/sr";
+import Link from "next/link";
+import { getDictionary } from "@/content";
+import { CONTACT, LEGAL_NAME, localePath, telHref, whatsappHref, type Locale } from "@/content/site";
 import Logo from "./Logo";
-import { SwashText } from "./ui";
 import styles from "./Footer.module.scss";
 
-const { footer, nav } = sr;
+export default function Footer({ locale }: { locale: Locale }) {
+  const { footer, nav, ui, contact } = getDictionary(locale);
 
-export default function Footer() {
   const phrase = (
     <span className={styles.phrase}>
-      <SwashText text={footer.marquee} />
+      {footer.marquee}
       <span className={styles.star} aria-hidden="true">
         ✦
       </span>
@@ -19,11 +20,20 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.top}>
         <div className={styles.brand}>
-          <Logo />
+          <Link href={localePath(locale)} aria-label={nav.home}>
+            <Logo className={styles.logo} />
+          </Link>
           <p className={styles.rights}>
-            © {new Date().getFullYear()} Enterijer Prijović. {footer.rights}
+            <bdi dir="ltr">
+              © {new Date().getFullYear()} {LEGAL_NAME}
+            </bdi>
+            . {footer.rights}
           </p>
           <p className={styles.rights}>
+            <Link href={localePath(locale, "/privacy")} className={styles.credit}>
+              {footer.privacy}
+            </Link>
+            <span aria-hidden="true"> · </span>
             {footer.credit.label}{" "}
             <a href={footer.credit.href} target="_blank" rel="noopener" className={styles.credit}>
               {footer.credit.name}
@@ -36,7 +46,7 @@ export default function Footer() {
           <ul>
             {[...nav.links, nav.contact].map((link) => (
               <li key={link.href}>
-                <a href={link.href}>{link.label}</a>
+                <Link href={localePath(locale, link.href)}>{link.label}</Link>
               </li>
             ))}
           </ul>
@@ -46,32 +56,60 @@ export default function Footer() {
           <p className={styles.label}>{footer.followLabel}</p>
           <ul>
             <li>
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                Instagram
+              <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer">
+                {ui.instagram}
               </a>
             </li>
+            {CONTACT.whatsapp && (
+              <li>
+                <a href={whatsappHref(CONTACT.whatsapp, ui.whatsappMessage)} target="_blank" rel="noopener noreferrer">
+                  {ui.whatsapp}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
 
         <div className={styles.group}>
           <p className={styles.label}>{footer.contactLabel}</p>
           <ul>
-            <li>{footer.location}</li>
-            <li>
-              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            {contact.studios.map((studio) => (
+              <li key={studio.city}>
+                {studio.city}
+                <span className={styles.country}>{studio.country}</span>
+              </li>
+            ))}
+            {CONTACT.phone && (
+              <li>
+                <a href={telHref(CONTACT.phone)} dir="ltr">
+                  {CONTACT.phone}
+                </a>
+              </li>
+            )}
+            {CONTACT.email && (
+              <li className={styles.lower}>
+                <a href={`mailto:${CONTACT.email}`} dir="ltr">
+                  {CONTACT.email}
+                </a>
+              </li>
+            )}
+            <li className={styles.postal}>
+              {contact.postal.lines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
             </li>
           </ul>
         </div>
       </div>
 
-      <a href="#kontakt" className={styles.marquee} aria-label={footer.marquee.replace(/[{}]/g, "")}>
+      <Link href={localePath(locale, "/contact")} className={styles.marquee} aria-label={footer.marquee}>
         <span className={styles.track} aria-hidden="true">
           {phrase}
           {phrase}
           {phrase}
           {phrase}
         </span>
-      </a>
+      </Link>
     </footer>
   );
 }

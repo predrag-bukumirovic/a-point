@@ -15,7 +15,7 @@
   backdrop-filter: saturate(1.2) blur(12px);
   -webkit-backdrop-filter: saturate(1.2) blur(12px);
   color: var(--ink);
-  box-shadow: 0 1px 0 rgba(43, 29, 19, 0.08);
+  box-shadow: 0 1px 0 rgba(31, 30, 27, 0.08);
 
   .bar {
     padding: 10px 0;
@@ -23,6 +23,24 @@
 
   .bar::after {
     opacity: 0;
+  }
+}
+
+// Link „preskoči na sadržaj“ — vidljiv samo pri navigaciji tastaturom.
+.skip {
+  position: absolute;
+  inset-inline-start: var(--gutter);
+  top: 8px;
+  z-index: 2;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 13px;
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease);
+
+  &:focus-visible {
+    transform: none;
   }
 }
 
@@ -52,6 +70,12 @@
   animation: fadeDown 1s var(--ease) 0.8s both;
 }
 
+// Pun logo (sa podnaslovom), kao u futeru. Dve klase da nadjačaju osnovnu visinu iz Logo.module.scss.
+.header .brand,
+.overlay .brand {
+  height: 44px;
+}
+
 .nav {
   display: flex;
   gap: clamp(20px, 2.6vw, 48px);
@@ -61,8 +85,17 @@
   }
 }
 
+.actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.2vw, 40px);
+  animation: fadeDown 1s var(--ease) 1.25s both;
+}
+
 .nav a,
-.contact {
+.contact,
+.lang {
   position: relative;
   font-size: 12px;
   font-weight: 500;
@@ -80,25 +113,85 @@
     transition: transform 0.5s var(--ease);
   }
 
-  &:hover::after {
+  &:hover::after,
+  &[aria-current="page"]::after {
     transform: scaleX(1);
     transform-origin: left;
   }
 }
 
-.contact {
-  justify-self: end;
-  animation: fadeDown 1s var(--ease) 1.25s both;
+// Naziv drugog jezika: sistemski font, da engleska strana ne učitava arapski font samo zbog ovog linka.
+.lang {
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
+/* ---------- Burger (telefon i tablet) ---------- */
+
+// Dugme je 44 × 44 (dovoljno za prst); linije se poravnavaju sa ivicom sadržaja.
 .toggle {
   display: none;
+  place-items: center;
   justify-self: end;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 10px 0;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -8px;
+}
+
+// Dve tanke linije, donja kraća; na prelaz mišem se izjednače.
+.burger {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 9px;
+
+  span {
+    position: absolute;
+    inset-inline-end: 0;
+    height: 1px;
+    background: currentColor;
+    transition:
+      width 0.6s var(--ease),
+      transform 0.7s var(--ease);
+  }
+
+  span:first-child {
+    top: 0;
+    width: 100%;
+  }
+
+  span:last-child {
+    bottom: 0;
+    width: 58%;
+  }
+}
+
+.toggle:hover .burger span:last-child,
+.toggle:focus-visible .burger span:last-child {
+  width: 100%;
+}
+
+// U otvorenom meniju iste linije se zarotiraju u „X“.
+.cross span:first-child,
+.cross span:last-child {
+  top: 50%;
+  bottom: auto;
+  width: 100%;
+}
+
+.open .cross span:first-child {
+  transform: rotate(45deg);
+  transition-delay: 0.25s;
+}
+
+.open .cross span:last-child {
+  transform: rotate(-45deg);
+  transition-delay: 0.25s;
 }
 
 /* ---------- Mobilni meni ---------- */
@@ -109,7 +202,7 @@
   z-index: 50;
   display: flex;
   flex-direction: column;
-  padding: 0 var(--gutter) 40px;
+  padding: 0 var(--gutter) 32px;
   background: var(--dark);
   color: var(--cream);
   clip-path: inset(0 0 100% 0);
@@ -133,7 +226,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
   .toggle {
-    display: block;
+    display: grid;
   }
 }
 
@@ -162,18 +255,64 @@
   }
 }
 
+.overlayFoot {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.overlayLang {
+  font-family: system-ui, sans-serif;
+  font-size: 15px;
+}
+
+:global([dir="rtl"]) {
+  .bar::after {
+    transform-origin: right;
+  }
+
+  .nav a,
+  .contact,
+  .lang {
+    letter-spacing: 0;
+
+    &::after {
+      transform-origin: left;
+    }
+
+    &:hover::after,
+    &[aria-current="page"]::after {
+      transform-origin: right;
+    }
+  }
+
+  .nav a,
+  .contact {
+    font-size: 14px;
+  }
+
+  .overlayNav a {
+    line-height: 1.35;
+  }
+}
+
 @media (max-width: 900px) {
   .bar {
     grid-template-columns: 1fr auto;
   }
 
+  .header .brand,
+  .overlay .brand {
+    height: 36px;
+  }
+
   .nav,
-  .contact {
+  .actions {
     display: none;
   }
 
   .toggle {
-    display: block;
+    display: grid;
     animation: fadeDown 1s var(--ease) 0.9s both;
   }
 }

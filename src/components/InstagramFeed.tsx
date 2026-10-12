@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { sr } from "@/content/sr";
+import { getDictionary } from "@/content";
+import type { Locale } from "@/content/site";
 import { Arrow, Heading, TextLink, delay } from "./ui";
 import styles from "./InstagramFeed.module.scss";
 
-const { instagram } = sr;
+export default function InstagramFeed({ locale }: { locale: Locale }) {
+  const { instagram } = getDictionary(locale).home;
 
-export default function InstagramFeed() {
   return (
-    <section id="instagram" className={styles.instagram}>
+    <section className={styles.instagram}>
       <header className={styles.head} data-reveal>
         <p className="label r-fade">{instagram.label}</p>
         <Heading lines={instagram.lines} />

@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { sr } from "@/content/sr";
+import { getDictionary } from "@/content";
+import { localePath, type Locale } from "@/content/site";
 import { Heading, TextLink, delay } from "./ui";
 import styles from "./Services.module.scss";
 
-const { services } = sr;
+export default function Services({ locale }: { locale: Locale }) {
+  const { services } = getDictionary(locale).home;
 
-export default function Services() {
   return (
     <section className={`${styles.services} pin`} data-pin>
       <div className={styles.bg}>
@@ -19,13 +20,17 @@ export default function Services() {
         <p className={`${styles.text} r-fade`} style={delay(0.35)}>
           {services.text}
         </p>
-        <TextLink href={services.cta.href} label={services.cta.label} className="r-fade" style={delay(0.5)} />
+        <TextLink
+          href={localePath(locale, services.cta.href)}
+          label={services.cta.label}
+          className="r-fade"
+          style={delay(0.5)}
+        />
       </div>
 
       <ul className={styles.cards} data-reveal>
         {services.items.map((item, i) => (
           <li key={item.title} className={`${styles.card} r-fade`} style={delay(0.15 + i * 0.1)} tabIndex={0}>
-            <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
             <div className={styles.image}>
               <Image src={item.image.src} alt={item.image.alt} fill sizes="(max-width: 900px) 40vw, 11vw" />
             </div>

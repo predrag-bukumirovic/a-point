@@ -1,15 +1,15 @@
 import Image from "next/image";
-import { sr } from "@/content/sr";
+import { getDictionary } from "@/content";
+import { localePath, type Locale } from "@/content/site";
 import { Heading, TextLink, delay } from "./ui";
 import styles from "./About.module.scss";
 
-const { about } = sr;
-
-export default function About() {
+export default function About({ locale }: { locale: Locale }) {
+  const { about } = getDictionary(locale).home;
   const [big, small] = about.images;
 
   return (
-    <section id="o-nama" className={styles.about}>
+    <section className={styles.about}>
       <div className={styles.text} data-reveal>
         <p className="label r-fade">{about.label}</p>
         <div className={styles.body}>
@@ -17,7 +17,12 @@ export default function About() {
           <p className="body-text r-fade" style={delay(0.35)}>
             {about.text}
           </p>
-          <TextLink href={about.cta.href} label={about.cta.label} className="r-fade" style={delay(0.5)} />
+          <TextLink
+            href={localePath(locale, about.cta.href)}
+            label={about.cta.label}
+            className="r-fade"
+            style={delay(0.5)}
+          />
         </div>
       </div>
 
