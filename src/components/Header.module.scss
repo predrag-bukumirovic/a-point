@@ -196,74 +196,222 @@
 
 /* ---------- Mobilni meni ---------- */
 
+// Zavesa se spušta odozgo, a za njom red po red izlaze linije, nazivi i brojevi.
 .overlay {
+  --curtain: cubic-bezier(0.76, 0, 0.24, 1);
+  --hairline: rgba(241, 238, 233, 0.16);
+
   position: fixed;
   inset: 0;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  padding: 0 var(--gutter) 32px;
-  background: var(--dark);
+  padding: 0 var(--gutter) 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  // Blag topli odsjaj u gornjem uglu daje dubinu ravnoj podlozi.
+  background:
+    radial-gradient(110% 55% at 100% 0%, rgba(213, 206, 195, 0.08), transparent 70%),
+    var(--dark);
   color: var(--cream);
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
   transition:
-    clip-path 0.8s var(--ease),
-    visibility 0s linear 0.8s;
+    clip-path 0.7s var(--curtain),
+    visibility 0s linear 0.7s;
 
   &.open {
     clip-path: inset(0);
     visibility: visible;
-    transition: clip-path 0.8s var(--ease);
+    transition: clip-path 0.9s var(--curtain);
   }
 }
 
 .overlayBar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: var(--hairline);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .open &::after {
+    transform: none;
+    transition: transform 1.4s var(--ease) 0.2s;
+  }
 
   .toggle {
     display: grid;
   }
 }
 
+// Svaki red ima tanku liniju ispod. Lista stoji na sredini slobodnog prostora.
+// Veličina slova prati i visinu ekrana, da svih pet stavki stane i na niskom telefonu.
 .overlayNav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: clamp(32px, 7svh, 64px);
+  --fs: clamp(32px, min(10.4vw, 6.2svh), 56px);
+  --py: clamp(12px, 2.6svh, 26px);
+
+  margin: auto 0;
+  padding: clamp(24px, 4svh, 48px) 0;
 
   a {
-    font-family: var(--serif);
-    font-variation-settings: "wdth" 80;
-    font-size: clamp(40px, 12vw, 64px);
-    line-height: 1.1;
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-      opacity 0.6s var(--ease),
-      transform 0.8s var(--ease);
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    padding: var(--py) 0;
+
+    // Linija ispod reda i, preko nje, svetla linija ispod naziva (aktivna strana, prelaz mišem).
+    // Svetla linija je u prvoj koloni mreže, pa je široka tačno koliko i naziv.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    &::before {
+      background: var(--hairline);
+      transition: transform 0.5s var(--ease);
+    }
+
+    &::after {
+      grid-column: 1 / 2;
+      background: var(--cream);
+      transition: transform 0.7s var(--ease);
+    }
   }
 
-  .open & a {
-    opacity: 1;
+  .open & a::before {
     transform: none;
+    transition: transform 1.4s var(--ease) calc(0.25s + var(--i) * 0.07s);
+  }
+
+  .open & a[aria-current="page"]::after {
+    transform: none;
+    transition: transform 1.2s var(--ease) calc(0.7s + var(--i) * 0.07s);
+  }
+
+  @media (hover: hover) {
+    .open & a:hover::after {
+      transform: none;
+      transition: transform 0.7s var(--ease);
+    }
   }
 }
 
+// Naziv izlazi iz maske; maska je veća od reda da ne odseče serife i rep slova J.
+.name {
+  --from: 135%;
+
+  font-family: var(--serif);
+  font-weight: 300;
+  font-variation-settings: "wdth" 80;
+  font-size: var(--fs);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  clip-path: inset(-0.3em);
+
+  span {
+    display: block;
+    transform: translateY(var(--from));
+    transition: transform 0.5s var(--ease);
+  }
+
+  .open & span {
+    transform: none;
+    transition: transform 1.2s var(--ease) calc(0.32s + var(--i) * 0.07s);
+  }
+}
+
+// Kontakt u dnu: imejl, telefon i Instagram, ispod njih gradovi i jezik.
 .overlayFoot {
-  margin-top: auto;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 28px 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.5s var(--ease);
+
+  .open & {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 1s var(--ease) 0.75s,
+      transform 1.2s var(--ease) 0.75s;
+  }
+
+  a {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.5s var(--ease);
+
+    &:hover {
+      background-size: 100% 1px;
+    }
+  }
+}
+
+.reach {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-size: 15px;
+}
+
+.place {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(241, 238, 233, 0.5);
 }
 
 .overlayLang {
   font-family: system-ui, sans-serif;
   font-size: 15px;
+}
+
+// Bez animacija: meni se samo pojavi.
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    clip-path: none;
+    opacity: 0;
+    transition:
+      opacity 0.3s,
+      visibility 0s linear 0.3s;
+
+    &.open {
+      clip-path: none;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .overlayBar::after,
+  .overlayNav a::before,
+  .name span,
+  .overlayFoot {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 :global([dir="rtl"]) {
@@ -291,8 +439,24 @@
     font-size: 14px;
   }
 
-  .overlayNav a {
+  .overlayBar::after,
+  .overlayNav a::before,
+  .overlayNav a::after {
+    transform-origin: right;
+  }
+
+  // Arapsko pismo: Naskh nema tanji rez, nema razmaka između slova, treba više prostora po visini.
+  .name {
+    --from: 160%;
+
+    font-weight: 400;
     line-height: 1.35;
+    letter-spacing: 0;
+    clip-path: inset(-0.5em -0.3em);
+  }
+
+  .place {
+    letter-spacing: 0;
   }
 }
 

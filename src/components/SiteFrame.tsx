@@ -16,10 +16,12 @@ export default function SiteFrame({
   header?: "overlay" | "solid";
   children: ReactNode;
 }) {
+  const { nav, footer } = getDictionary(locale);
+
   return (
     <>
       <SmoothScroll />
-      <Header locale={locale} nav={getDictionary(locale).nav} variant={header} />
+      <Header locale={locale} nav={nav} place={footer.location} variant={header} />
       <main id="main">{children}</main>
       <Footer locale={locale} />
       <WhatsAppButton locale={locale} />

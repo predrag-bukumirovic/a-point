@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import type { Dictionary } from "@/content";
-import { localePath, type Locale } from "@/content/site";
+import { CONTACT, localePath, telHref, type Locale } from "@/content/site";
 import Logo from "./Logo";
 import { getLenis } from "./SmoothScroll";
 import styles from "./Header.module.scss";
@@ -28,10 +28,13 @@ const subscribeScroll = (onChange: () => void) => {
 export default function Header({
   locale,
   nav,
+  place,
   variant = "overlay",
 }: {
   locale: Locale;
   nav: Dictionary["nav"];
+  /** Gradovi studija („Dubai · Limassol · Worldwide“), u dnu mobilnog menija. */
+  place: string;
   variant?: "overlay" | "solid";
 }) {
   const [open, setOpen] = useState(false);
@@ -41,6 +44,8 @@ export default function Header({
   const mounted = useSyncExternalStore(noop, () => true, () => false);
   const scrolled = useSyncExternalStore(subscribeScroll, () => window.scrollY > 24, () => false);
   const solid = variant === "solid" || scrolled;
+  // Linkovi zatvorenog menija se preskaču pri navigaciji tastaturom.
+  const tab = open ? 0 : -1;
 
   // Ista strana na drugom jeziku.
   const other: Locale = locale === "en" ? "ar" : "en";
@@ -134,16 +139,16 @@ export default function Header({
 
       {mounted &&
         createPortal(
-          <div id="mobile-menu" className={`${styles.overlay} ${open ? styles.open : ""}`} aria-hidden={!open}>
+          // data-lenis-prevent: na niskom ekranu meni se skroluje iako je Lenis zaustavljen.
+          <div
+            id="mobile-menu"
+            className={`${styles.overlay} ${open ? styles.open : ""}`}
+            aria-hidden={!open}
+            data-lenis-prevent
+          >
             <div className={styles.overlayBar}>
               <Logo className={styles.brand} />
-              <button
-                type="button"
-                className={styles.toggle}
-                aria-label={nav.close}
-                onClick={close}
-                tabIndex={open ? 0 : -1}
-              >
+              <button type="button" className={styles.toggle} aria-label={nav.close} onClick={close} tabIndex={tab}>
                 <span className={`${styles.burger} ${styles.cross}`} aria-hidden="true">
                   <span />
                   <span />
@@ -155,15 +160,36 @@ export default function Header({
                 <Link
                   key={link.href}
                   href={localePath(locale, link.href)}
+                  aria-current={isActive(link.href) ? "page" : undefined}
                   onClick={close}
-                  tabIndex={open ? 0 : -1}
-                  style={{ transitionDelay: open ? `${0.15 + i * 0.06}s` : "0s" }}
+                  tabIndex={tab}
+                  style={{ "--i": i } as CSSProperties}
                 >
-                  {link.label}
+                  <span className={styles.name}>
+                    <span>{link.label}</span>
+                  </span>
                 </Link>
               ))}
             </nav>
-            <div className={styles.overlayFoot}>{switchLink(styles.overlayLang, open ? 0 : -1)}</div>
+            <div className={styles.overlayFoot}>
+              <div className={styles.reach}>
+                {CONTACT.email && (
+                  <a href={`mailto:${CONTACT.email}`} dir="ltr" tabIndex={tab}>
+                    {CONTACT.email}
+                  </a>
+                )}
+                {CONTACT.phone && (
+                  <a href={telHref(CONTACT.phone)} dir="ltr" tabIndex={tab}>
+                    {CONTACT.phone}
+                  </a>
+                )}
+                <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" dir="ltr" tabIndex={tab}>
+                  {CONTACT.instagramHandle}
+                </a>
+              </div>
+              <p className={styles.place}>{place}</p>
+              {switchLink(styles.overlayLang, tab)}
+            </div>
           </div>,
           document.body,
         )}
