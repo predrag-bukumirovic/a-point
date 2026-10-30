@@ -1,22 +1,5 @@
-// Boja grešaka — jedini tekst na sajtu koji nije crn ili beo, da se validacija jasno vidi.
+// Boja grešaka — jedini tekst na sajtu koji nije crn ili beo, da se validacija vidi.
 $error: #b3261e;
-
-// Krug sa uzvičnikom ispred poruke o grešci.
-@mixin alert-icon {
-  content: "!";
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 16px;
-  height: 16px;
-  margin-top: 1px;
-  border-radius: 50%;
-  background: $error;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1;
-}
 
 @keyframes appear {
   from {
@@ -28,7 +11,7 @@ $error: #b3261e;
 .form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(20px, 2vw, 28px) 20px;
+  gap: clamp(26px, 2.6vw, 36px) 24px;
   align-content: start;
 }
 
@@ -43,10 +26,9 @@ $error: #b3261e;
 }
 
 .caption {
-  font-size: var(--fs-body);
+  font-size: 12px;
   letter-spacing: var(--track);
   text-transform: uppercase;
-  transition: color 0.3s var(--ease);
 }
 
 .field input,
@@ -61,17 +43,13 @@ $error: #b3261e;
   padding: 2px 0 12px;
   font-size: 16px;
   color: var(--ink);
-  transition:
-    border-color 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
+  transition: border-color 0.3s var(--ease);
 
   // Fokusirano polje ne sme da ostane ispod fiksnog zaglavlja.
   scroll-margin-top: calc(var(--header-h) + 64px);
 
-  // Linija postaje crna i deblja; senka umesto okvira, da se raspored ne pomera.
   &:focus {
     border-color: var(--ink);
-    box-shadow: 0 1px 0 var(--ink);
   }
 }
 
@@ -94,47 +72,26 @@ $error: #b3261e;
   padding-inline-end: 24px;
 }
 
+// Poruka je samo linija kao i ostala polja, bez okvira.
 .field textarea {
-  min-height: 110px;
-  padding: 10px 12px;
-  border: 1px solid var(--sand);
+  min-height: 84px;
+  padding: 8px 0 10px;
+  line-height: 1.4;
   resize: vertical;
-
-  &:focus {
-    box-shadow: 0 0 0 1px var(--ink);
-  }
 }
 
-// Pogrešno polje: crven naziv i deblja crvena linija, i dok je fokusirano.
-.field.invalid {
-  .caption {
-    color: $error;
-  }
-
-  input,
-  textarea {
-    border-color: $error;
-    box-shadow: 0 1px 0 $error;
-  }
-
-  textarea {
-    box-shadow: 0 0 0 1px $error;
-  }
+// Pogrešno polje: crvena linija (i dok je fokusirano) i kratka poruka ispod.
+.field.invalid input,
+.field.invalid textarea {
+  border-color: $error;
 }
 
-.message {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 500;
+.message,
+.error {
+  font-size: 12px;
   line-height: 1.4;
   color: $error;
   animation: appear 0.35s var(--ease);
-
-  &::before {
-    @include alert-icon;
-  }
 }
 
 .trap {
@@ -143,22 +100,6 @@ $error: #b3261e;
   width: 1px;
   height: 1px;
   overflow: hidden;
-}
-
-.error {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
-  border: 1px solid $error;
-  background: rgba($error, 0.06);
-  font-size: 13px;
-  line-height: 1.4;
-  animation: appear 0.35s var(--ease);
-
-  &::before {
-    @include alert-icon;
-  }
 }
 
 .foot {
@@ -171,7 +112,6 @@ $error: #b3261e;
 }
 
 .privacy {
-  max-width: 320px;
   font-size: var(--fs-body);
   line-height: 1.4;
 

@@ -1,5 +1,3 @@
-// Zajednički stilovi admina: strana, zaglavlje strane, polja i dugmad — u stilu sajta.
-
 .page {
   padding: clamp(40px, 5vw, 72px) var(--pad) clamp(80px, 8vw, 140px);
 }
@@ -30,8 +28,10 @@
 
 .caption {
   font-size: 12px;
-  letter-spacing: var(--track);
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--muted);
 }
 
 .field input,
@@ -67,6 +67,10 @@
 }
 
 .invalid {
+  .caption {
+    color: #9b3b2e;
+  }
+
   input,
   textarea {
     border-color: #9b3b2e;
@@ -76,6 +80,7 @@
 .hint {
   font-size: 13px;
   line-height: 1.5;
+  color: var(--muted);
 }
 
 /* ---------- Dugmad ---------- */
@@ -90,7 +95,8 @@
   padding: 12px 28px;
   border: 1px solid var(--ink);
   font-size: 12px;
-  letter-spacing: var(--track);
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   transition:
     background-color 0.4s var(--ease),
@@ -106,6 +112,7 @@
   }
 
   &:disabled {
+    opacity: 0.55;
     cursor: wait;
   }
 }
@@ -145,4 +152,5 @@
 .error {
   border-inline-start: 2px solid #9b3b2e;
   background: rgba(155, 59, 46, 0.06);
+  color: #7c2f25;
 }

@@ -133,14 +133,12 @@ export default function EnquiryForm({
     if (!navigator.onLine) e.preventDefault();
   };
 
-  // Poruka iznad dugmeta: bez mreže, pogrešna polja posle pokušaja slanja, ili greška servera.
+  // Poruka iznad dugmeta samo kad slanje ne uspe; pogrešna polja imaju poruku ispod sebe.
   const failure = offline
     ? "failed"
-    : attempted && ENQUIRY_FIELDS.some((field) => errors[field])
-      ? "invalid"
-      : state.status === "error"
-        ? (state.error ?? "failed")
-        : undefined;
+    : state.status === "error"
+      ? (state.error ?? "failed")
+      : undefined;
 
   const error = (field: EnquiryField) => {
     const code = errors[field];
@@ -234,7 +232,7 @@ export default function EnquiryForm({
       >
         <textarea
           {...control("message")}
-          rows={4}
+          rows={3}
           maxLength={ENQUIRY_LIMITS.message}
           required
         />

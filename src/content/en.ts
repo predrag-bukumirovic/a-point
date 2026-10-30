@@ -223,15 +223,14 @@ export const en = {
         },
         email: {
           required: "Please enter your email address.",
-          invalid: "Please enter a valid email address, e.g. name@example.com.",
+          invalid: "Please enter a valid email address.",
         },
         phone: {
-          invalid:
-            "Please enter a valid phone number with the country code, e.g. +971 50 123 4567.",
+          invalid: "Please enter a valid phone number.",
         },
         message: {
           required: "Please tell us a little about your project.",
-          short: "Please write a little more — at least 10 characters.",
+          short: "Please write at least 10 characters.",
         },
       },
       errors: {
