@@ -10,15 +10,12 @@ import styles from "./ProjectGallery.module.scss";
 type Photo = Img & { portrait?: boolean };
 type Labels = { open: string; close: string; prev: string; next: string };
 
-/**
- * Redovi galerije: jedna široka slika, pa par, pa opet široka…; uspravne slike idu u parove na kraju.
- * Raspored „grid“ (arhiva) slaže sve slike u jednake redove po tri.
- */
 function toRows(photos: Photo[], layout: "rows" | "grid") {
   if (layout === "grid") {
     let i = 0;
     const rows: Photo[][] = [];
-    for (let k = 0; k < photos.length; k += 3) rows.push(photos.slice(k, k + 3));
+    for (let k = 0; k < photos.length; k += 3)
+      rows.push(photos.slice(k, k + 3));
     return rows.map((row) => row.map((photo) => ({ photo, i: i++ })));
   }
   const land = photos.filter((p) => !p.portrait);
@@ -30,7 +27,6 @@ function toRows(photos: Photo[], layout: "rows" | "grid") {
     k += pair ? 2 : 1;
   }
   for (let k = 0; k < port.length; k += 2) rows.push(port.slice(k, k + 2));
-  // Redni broj svake slike (redosled u uvećanom prikazu prati raspored na strani).
   let i = 0;
   return rows.map((row) => row.map((photo) => ({ photo, i: i++ })));
 }
@@ -51,7 +47,9 @@ export default function ProjectGallery({
   const open = current !== null;
 
   const step = (dir: 1 | -1) =>
-    setCurrent((c) => (c === null ? c : (c + dir + ordered.length) % ordered.length));
+    setCurrent((c) =>
+      c === null ? c : (c + dir + ordered.length) % ordered.length,
+    );
 
   useEffect(() => {
     const d = dialog.current;
@@ -64,13 +62,12 @@ export default function ProjectGallery({
     return () => document.documentElement.classList.remove("menu-open");
   }, [open]);
 
-  // Strelice na tastaturi; na arapskom „sledeća“ je levo.
+  // Strelice na tastaturi.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      const rtl = document.documentElement.dir === "rtl";
-      if (e.key === "ArrowRight") step(rtl ? -1 : 1);
-      if (e.key === "ArrowLeft") step(rtl ? 1 : -1);
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -99,8 +96,16 @@ export default function ProjectGallery({
                   src={p.src}
                   alt={p.alt}
                   placeholder="blur"
-                  sizes={layout === "grid" ? "(max-width: 700px) 100vw, 33vw" : row.length > 1 ? "(max-width: 700px) 100vw, 50vw" : "100vw"}
-                  {...(row.length > 1 || layout === "grid" ? { fill: true } : {})}
+                  sizes={
+                    layout === "grid"
+                      ? "(max-width: 700px) 100vw, 33vw"
+                      : row.length > 1
+                        ? "(max-width: 700px) 100vw, 50vw"
+                        : "100vw"
+                  }
+                  {...(row.length > 1 || layout === "grid"
+                    ? { fill: true }
+                    : {})}
                 />
               </button>
             ))}
@@ -119,19 +124,40 @@ export default function ProjectGallery({
           <>
             <figure className={styles.figure}>
               <div className={styles.frame}>
-                <Image key={current} src={photo.src} alt={photo.alt} fill sizes="100vw" className={styles.full} />
+                <Image
+                  key={current}
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="100vw"
+                  className={styles.full}
+                />
               </div>
               <figcaption className={styles.caption}>{photo.alt}</figcaption>
             </figure>
-            <button type="button" className={styles.close} onClick={() => setCurrent(null)}>
+            <button
+              type="button"
+              className={styles.close}
+              onClick={() => setCurrent(null)}
+            >
               {labels.close}
             </button>
             {ordered.length > 1 && (
               <>
-                <button type="button" className={`${styles.nav} ${styles.prev}`} onClick={() => step(-1)} aria-label={labels.prev}>
+                <button
+                  type="button"
+                  className={`${styles.nav} ${styles.prev}`}
+                  onClick={() => step(-1)}
+                  aria-label={labels.prev}
+                >
                   <Arrow className={styles.flip} />
                 </button>
-                <button type="button" className={`${styles.nav} ${styles.next}`} onClick={() => step(1)} aria-label={labels.next}>
+                <button
+                  type="button"
+                  className={`${styles.nav} ${styles.next}`}
+                  onClick={() => step(1)}
+                  aria-label={labels.next}
+                >
                   <Arrow />
                 </button>
               </>

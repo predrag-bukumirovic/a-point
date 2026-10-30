@@ -1,5 +1,5 @@
 import type { StaticImageData } from "next/image";
-import type { Img, Locale } from "./site";
+import type { Img } from "./site";
 
 import ajCover from "@/assets/images/projects/ajman-villa/cover.jpg";
 import ajDetail from "@/assets/images/projects/ajman-villa/detail.jpg";
@@ -83,18 +83,17 @@ import ag06 from "@/assets/images/projects/al-gurum-villa/06.jpg";
  * `featured` — projekat se prikazuje i u izboru na početnoj strani.
  */
 
-type T<V = string> = Record<Locale, V>;
-type Photo = { src: StaticImageData; alt: T; portrait?: boolean };
+type Photo = { src: StaticImageData; alt: string; portrait?: boolean };
 
 type ProjectData = {
   slug: string;
-  title: T;
-  category: T;
-  location: T;
-  scope: T;
-  summary: T;
-  body: T<string[]>;
-  caption: T;
+  title: string;
+  category: string;
+  location: string;
+  scope: string;
+  summary: string;
+  body: string[];
+  caption: string;
   year?: string;
   featured?: boolean;
   credits?: { client: string; architect: string };
@@ -108,286 +107,205 @@ const projects: ProjectData[] = [
   {
     slug: "ajman-villa",
     featured: true,
-    title: { en: "Ajman Villa", ar: "فيلا عجمان" },
-    category: { en: "Private villa", ar: "فيلا خاصة" },
-    location: { en: "Ajman, UAE", ar: "عجمان، الإمارات" },
-    scope: { en: "Interior architecture · Visualisation", ar: "العمارة الداخلية · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A private villa in warm stone, pale oak and soft daylight, where the living spaces open fully to the garden and pool.",
-      ar: "فيلا خاصة من الحجر الدافئ وخشب البلوط الفاتح وضوء النهار الناعم، تنفتح مساحات المعيشة فيها بالكامل على الحديقة والمسبح.",
-    },
-    body: {
-      en: [
-        "The villa is organised around its garden. Full-height glazing dissolves the boundary between inside and out, so the living room, the pool and the planting read as one continuous space.",
-        "Inside, a restrained palette of veined stone, oak panelling and bronze details carries through every room — from the sculptural living areas to the kitchen island, the master suite and the stone-clad bathrooms, each lit with quiet, layered light.",
-      ],
-      ar: [
-        "تتمحور الفيلا حول حديقتها. الواجهات الزجاجية الممتدة من الأرض حتى السقف تُذيب الحدود بين الداخل والخارج، فتبدو غرفة المعيشة والمسبح والمساحات الخضراء فضاءً واحداً متصلاً.",
-        "في الداخل، تمتد لوحة مواد هادئة من الحجر المعرّق وألواح البلوط والتفاصيل البرونزية عبر جميع الغرف — من مساحات المعيشة النحتية إلى جزيرة المطبخ والجناح الرئيسي والحمّامات المكسوّة بالحجر، وكلّها مضاءة بإضاءة هادئة متعددة الطبقات.",
-      ],
-    },
-    caption: {
-      en: "Master bedroom — oak panelling and quiet, layered light.",
-      ar: "غرفة النوم الرئيسية — ألواح البلوط وإضاءة هادئة متعددة الطبقات.",
-    },
+    title: "Ajman Villa",
+    category: "Private villa",
+    location: "Ajman, UAE",
+    scope: "Interior architecture · Visualisation",
+    summary: "A private villa in warm stone, pale oak and soft daylight, where the living spaces open fully to the garden and pool.",
+    body: [
+      "The villa is organised around its garden. Full-height glazing dissolves the boundary between inside and out, so the living room, the pool and the planting read as one continuous space.",
+      "Inside, a restrained palette of veined stone, oak panelling and bronze details carries through every room — from the sculptural living areas to the kitchen island, the master suite and the stone-clad bathrooms, each lit with quiet, layered light.",
+    ],
+    caption: "Master bedroom — oak panelling and quiet, layered light.",
     cover: ajCover,
     detail: ajDetail,
     gallery: [
-      { src: aj01, alt: { en: "Living room opening onto the garden courtyard and pool", ar: "غرفة المعيشة المنفتحة على فناء الحديقة والمسبح" } },
-      { src: aj02, alt: { en: "Living area beneath a sculptural hexagonal light", ar: "منطقة المعيشة أسفل ثريا سداسية نحتية" } },
-      { src: aj03, alt: { en: "Lounge with garden views and a stone feature wall", ar: "صالة بإطلالة على الحديقة وجدار حجري" } },
-      { src: aj04, alt: { en: "Sitting room with a linear fireplace and veined stone walls", ar: "غرفة جلوس بمدفأة طولية وجدران من الحجر المعرّق" } },
-      { src: aj05, alt: { en: "Dining room with a linear chandelier", ar: "غرفة الطعام بثريا طولية" } },
-      { src: aj06, alt: { en: "Kitchen island in pale stone with bronze bar stools", ar: "جزيرة المطبخ من الحجر الفاتح مع مقاعد برونزية" } },
-      { src: aj07, alt: { en: "Bedroom suite framed in oak", ar: "جناح نوم بإطار من خشب البلوط" } },
-      { src: aj08, alt: { en: "Master bedroom with an oak-panelled wall", ar: "غرفة النوم الرئيسية بجدار من ألواح البلوط" } },
-      { src: aj09, alt: { en: "Stone bathroom lit by a skylight", ar: "حمّام حجري يضيئه منور سقفي" } },
-      { src: aj10, alt: { en: "Bathroom with a freestanding tub and a walk-in wardrobe", ar: "حمّام بحوض مستقل وغرفة ملابس" } },
+      { src: aj01, alt: "Living room opening onto the garden courtyard and pool" },
+      { src: aj02, alt: "Living area beneath a sculptural hexagonal light" },
+      { src: aj03, alt: "Lounge with garden views and a stone feature wall" },
+      { src: aj04, alt: "Sitting room with a linear fireplace and veined stone walls" },
+      { src: aj05, alt: "Dining room with a linear chandelier" },
+      { src: aj06, alt: "Kitchen island in pale stone with bronze bar stools" },
+      { src: aj07, alt: "Bedroom suite framed in oak" },
+      { src: aj08, alt: "Master bedroom with an oak-panelled wall" },
+      { src: aj09, alt: "Stone bathroom lit by a skylight" },
+      { src: aj10, alt: "Bathroom with a freestanding tub and a walk-in wardrobe" },
     ],
   },
   {
     slug: "khalid-villa",
     featured: true,
-    title: { en: "Khalid Villa", ar: "فيلا خالد" },
-    category: { en: "Private villa", ar: "فيلا خاصة" },
-    location: { en: "Dubai, UAE", ar: "دبي، الإمارات" },
-    scope: { en: "Interior architecture · Visualisation", ar: "العمارة الداخلية · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A contemporary villa in Dubai defined by fluted dark timber, pale stone and gallery lighting — a calm backdrop for art, family life and gathering.",
-      ar: "فيلا معاصرة في دبي تحدّد ملامحها الأخشاب الداكنة المضلّعة والحجر الفاتح وإضاءة المعارض — خلفية هادئة للفن والحياة العائلية واللقاءات.",
-    },
-    body: {
-      en: [
-        "Generous open-plan living is structured by tall fluted timber walls that frame the art, conceal storage and give each zone its own presence. Track lighting and recessed coves keep the ceilings clean and let the mood change from day to night.",
-        "The private wing continues the same language in softer tones — bedroom suites with full-height glazing and stone bathrooms with a living green wall — while a private car gallery with mirrored columns turns a collection into an exhibition.",
-      ],
-      ar: [
-        "تنتظم مساحات المعيشة المفتوحة والواسعة بواسطة جدران خشبية مضلّعة عالية تؤطّر الأعمال الفنية وتُخفي التخزين وتمنح كل منطقة حضورها الخاص. وتحافظ الإضاءة المسارية والتجاويف المضيئة على نقاء الأسقف، وتتيح تبديل الأجواء من النهار إلى الليل.",
-        "ويستمر الجناح الخاص باللغة نفسها بدرجات أكثر نعومة — أجنحة نوم بواجهات زجاجية كاملة وحمّامات حجرية بجدار نباتي حيّ — بينما يحوّل معرض السيارات الخاص بأعمدته العاكسة المجموعةَ إلى معرض فني.",
-      ],
-    },
-    caption: {
-      en: "Bedroom suite with full-height glazing and an open dressing wall.",
-      ar: "جناح نوم بواجهة زجاجية كاملة وجدار ملابس مفتوح.",
-    },
+    title: "Khalid Villa",
+    category: "Private villa",
+    location: "Dubai, UAE",
+    scope: "Interior architecture · Visualisation",
+    summary: "A contemporary villa in Dubai defined by fluted dark timber, pale stone and gallery lighting — a calm backdrop for art, family life and gathering.",
+    body: [
+      "Generous open-plan living is structured by tall fluted timber walls that frame the art, conceal storage and give each zone its own presence. Track lighting and recessed coves keep the ceilings clean and let the mood change from day to night.",
+      "The private wing continues the same language in softer tones — bedroom suites with full-height glazing and stone bathrooms with a living green wall — while a private car gallery with mirrored columns turns a collection into an exhibition.",
+    ],
+    caption: "Bedroom suite with full-height glazing and an open dressing wall.",
     cover: khCover,
     detail: khDetail,
     gallery: [
-      { src: kh01, alt: { en: "Open-plan living area with art and fluted timber walls", ar: "منطقة معيشة مفتوحة مع أعمال فنية وجدران خشبية مضلّعة" } },
-      { src: kh02, alt: { en: "Dining room with a sculptural brass chandelier", ar: "غرفة الطعام بثريا نحاسية نحتية" } },
-      { src: kh03, alt: { en: "Living room with a dark fluted timber wall and a brass kitchen island", ar: "غرفة المعيشة بجدار خشبي داكن مضلّع وجزيرة مطبخ نحاسية" } },
-      { src: kh04, alt: { en: "Lounge with a low sectional sofa and a sculptural coffee table", ar: "صالة بأريكة منخفضة وطاولة قهوة نحتية" } },
-      { src: kh05, alt: { en: "Private car gallery with mirrored columns", ar: "معرض سيارات خاص بأعمدة عاكسة" } },
-      { src: kh06, alt: { en: "Bedroom suite with full-height glazing", ar: "جناح نوم بواجهة زجاجية كاملة" } },
-      { src: kh07, alt: { en: "Bedroom with dark timber walls", ar: "غرفة نوم بجدران خشبية داكنة" } },
-      { src: kh08, alt: { en: "Stone bathroom with a freestanding tub", ar: "حمّام حجري بحوض مستقل" } },
-      { src: kh09, alt: { en: "Bathroom with a living green wall", ar: "حمّام بجدار نباتي حيّ" } },
-      { src: khP1, alt: { en: "Corridor lit by a concealed light cove", ar: "ممر تضيئه إنارة مخفية" }, portrait: true },
-      { src: khP2, alt: { en: "Illuminated stair beside dark fluted panels", ar: "درج مضاء بجانب ألواح داكنة مضلّعة" }, portrait: true },
+      { src: kh01, alt: "Open-plan living area with art and fluted timber walls" },
+      { src: kh02, alt: "Dining room with a sculptural brass chandelier" },
+      { src: kh03, alt: "Living room with a dark fluted timber wall and a brass kitchen island" },
+      { src: kh04, alt: "Lounge with a low sectional sofa and a sculptural coffee table" },
+      { src: kh05, alt: "Private car gallery with mirrored columns" },
+      { src: kh06, alt: "Bedroom suite with full-height glazing" },
+      { src: kh07, alt: "Bedroom with dark timber walls" },
+      { src: kh08, alt: "Stone bathroom with a freestanding tub" },
+      { src: kh09, alt: "Bathroom with a living green wall" },
+      { src: khP1, alt: "Corridor lit by a concealed light cove", portrait: true },
+      { src: khP2, alt: "Illuminated stair beside dark fluted panels", portrait: true },
     ],
   },
   {
     slug: "central-park-plaza",
     featured: true,
-    title: { en: "Central Park Plaza", ar: "سنترال بارك بلازا" },
-    category: { en: "Residential development", ar: "مشروع سكني" },
-    location: { en: "Dubai, UAE", ar: "دبي، الإمارات" },
-    scope: { en: "Interior design consultant", ar: "استشاري التصميم الداخلي" },
-    summary: {
-      en: "Interior design consultancy for Central Park Plaza, a residential development by DHRE with architecture by DEWAN.",
-      ar: "استشارات التصميم الداخلي لمشروع سنترال بارك بلازا، وهو مشروع سكني لشركة DHRE بتصميم معماري من DEWAN.",
-    },
-    body: {
-      en: [
-        "As interior design consultant on the project, A Point worked on the interiors of the development, including lobbies that bring greenery, daylight and sculptural forms indoors.",
-        "Set beside a landscaped park, the towers look over generous gardens towards the Dubai skyline — a setting the interiors continue with natural materials and soft, organic shapes.",
-      ],
-      ar: [
-        "بصفتها استشاري التصميم الداخلي للمشروع، عملت A Point على التصاميم الداخلية للمشروع، ومنها الردهات التي تُدخل المساحات الخضراء وضوء النهار والأشكال النحتية إلى الداخل.",
-        "تقع الأبراج بجانب حديقة منسّقة، وتطل على مساحات خضراء واسعة باتجاه أفق دبي — وهو محيط تواصله التصاميم الداخلية بمواد طبيعية وأشكال عضوية ناعمة.",
-      ],
-    },
-    caption: {
-      en: "Arrival lobby with a floating stair.",
-      ar: "ردهة الاستقبال بدرج معلّق.",
-    },
+    title: "Central Park Plaza",
+    category: "Residential development",
+    location: "Dubai, UAE",
+    scope: "Interior design consultant",
+    summary: "Interior design consultancy for Central Park Plaza, a residential development by DHRE with architecture by DEWAN.",
+    body: [
+      "As interior design consultant on the project, A Point worked on the interiors of the development, including lobbies that bring greenery, daylight and sculptural forms indoors.",
+      "Set beside a landscaped park, the towers look over generous gardens towards the Dubai skyline — a setting the interiors continue with natural materials and soft, organic shapes.",
+    ],
+    caption: "Arrival lobby with a floating stair.",
     credits: { client: "DHRE", architect: "DEWAN" },
     film: { src: "/media/central-park-plaza.mp4", poster: "/media/central-park-plaza.jpg" },
     cover: cpCover,
     detail: cpDetail,
     gallery: [
-      { src: cp01, alt: { en: "Lobby with a tree, a sculptural staircase and soft seating", ar: "ردهة بشجرة ودرج نحتي ومقاعد ناعمة" } },
-      { src: cp02, alt: { en: "Floating staircase with pendant lights and stone walls", ar: "درج معلّق مع إضاءة متدلية وجدران حجرية" } },
+      { src: cp01, alt: "Lobby with a tree, a sculptural staircase and soft seating" },
+      { src: cp02, alt: "Floating staircase with pendant lights and stone walls" },
     ],
   },
   {
     slug: "mak-villa",
-    title: { en: "MAK Villa", ar: "فيلا MAK" },
-    category: { en: "Private villa", ar: "فيلا خاصة" },
-    location: { en: "Dubai, UAE", ar: "دبي، الإمارات" },
-    scope: { en: "Interior architecture · Visualisation", ar: "العمارة الداخلية · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A private villa in Dubai composed around a floating timber staircase, where slatted screens, veined stone and a glass-fronted garage become part of the interior.",
-      ar: "فيلا خاصة في دبي تتمحور حول درج خشبي معلّق، تصبح فيها الحواجز الخشبية المشبّكة والحجر المعرّق والمرأب ذو الواجهة الزجاجية جزءاً من التصميم الداخلي.",
-    },
-    body: {
-      en: [
-        "MAK Villa is organised around a double-height hall and a floating timber staircase. Slatted screens filter the light between the living spaces, while large-format stone, dark timber and bronze set a calm, tailored palette.",
-        "Living and dining areas open onto the garden; art, sculptural lighting and bespoke joinery give each room its own character, through to the master suite, the dressing room and the stone-clad bathrooms.",
-      ],
-      ar: [
-        "تنتظم فيلا MAK حول بهو بارتفاع طابقين ودرج خشبي معلّق. تُرشّح الحواجز الخشبية المشبّكة الضوء بين مساحات المعيشة، فيما يرسم الحجر بالألواح الكبيرة والخشب الداكن والبرونز لوحة مواد هادئة ومتقنة.",
-        "تنفتح مساحات المعيشة والطعام على الحديقة، وتمنح الأعمال الفنية والإضاءة النحتية والنجارة المصممة حسب الطلب كل غرفة طابعها الخاص، وصولاً إلى الجناح الرئيسي وغرفة الملابس والحمّامات المكسوّة بالحجر.",
-      ],
-    },
-    caption: { en: "Master bedroom with a dark timber wall and soft, layered light.", ar: "غرفة النوم الرئيسية بجدار خشبي داكن وإضاءة ناعمة متعددة الطبقات." },
+    title: "MAK Villa",
+    category: "Private villa",
+    location: "Dubai, UAE",
+    scope: "Interior architecture · Visualisation",
+    summary: "A private villa in Dubai composed around a floating timber staircase, where slatted screens, veined stone and a glass-fronted garage become part of the interior.",
+    body: [
+      "MAK Villa is organised around a double-height hall and a floating timber staircase. Slatted screens filter the light between the living spaces, while large-format stone, dark timber and bronze set a calm, tailored palette.",
+      "Living and dining areas open onto the garden; art, sculptural lighting and bespoke joinery give each room its own character, through to the master suite, the dressing room and the stone-clad bathrooms.",
+    ],
+    caption: "Master bedroom with a dark timber wall and soft, layered light.",
     year: "2020",
     featured: true,
     cover: mkCover,
     detail: mkDetail,
     gallery: [
-      { src: mk01, alt: { en: "Floating timber staircase with a glass-fronted garage below", ar: "درج خشبي معلّق ومرأب بواجهة زجاجية في الأسفل" } },
-      { src: mk02, alt: { en: "Living room with slatted screens and sculptural art", ar: "غرفة المعيشة بحواجز خشبية مشبّكة وأعمال فنية نحتية" } },
-      { src: mk03, alt: { en: "Dining room and kitchen beneath linear pendant lights", ar: "غرفة الطعام والمطبخ أسفل إضاءة متدلية طولية" } },
-      { src: mk04, alt: { en: "Lounge with a fireplace and garden views", ar: "صالة بمدفأة وإطلالة على الحديقة" } },
-      { src: mk05, alt: { en: "Double-height hall with art and a floating staircase", ar: "بهو بارتفاع طابقين مع عمل فني ودرج معلّق" } },
-      { src: mk06, alt: { en: "Master bedroom with a dark timber wall", ar: "غرفة النوم الرئيسية بجدار خشبي داكن" } },
-      { src: mk07, alt: { en: "Dressing room with a skylight and a central island", ar: "غرفة ملابس بمنور سقفي وجزيرة وسطية" } },
-      { src: mk08, alt: { en: "Bathroom with a stone vanity and garden views", ar: "حمّام بوحدة مغسلة حجرية وإطلالة على الحديقة" } },
+      { src: mk01, alt: "Floating timber staircase with a glass-fronted garage below" },
+      { src: mk02, alt: "Living room with slatted screens and sculptural art" },
+      { src: mk03, alt: "Dining room and kitchen beneath linear pendant lights" },
+      { src: mk04, alt: "Lounge with a fireplace and garden views" },
+      { src: mk05, alt: "Double-height hall with art and a floating staircase" },
+      { src: mk06, alt: "Master bedroom with a dark timber wall" },
+      { src: mk07, alt: "Dressing room with a skylight and a central island" },
+      { src: mk08, alt: "Bathroom with a stone vanity and garden views" },
     ],
   },
   {
     slug: "port-rashid",
-    title: { en: "Port Rashid", ar: "ميناء راشد" },
-    category: { en: "Waterfront residence", ar: "مسكن على الواجهة البحرية" },
-    location: { en: "Port Rashid, Dubai", ar: "ميناء راشد، دبي" },
-    scope: { en: "Interior design · Visualisation", ar: "التصميم الداخلي · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A waterfront residence where every room turns towards the sea, with soft textiles, natural timber and blue accents that carry the view inside.",
-      ar: "مسكن على الواجهة البحرية تتجه فيه كل غرفة نحو البحر، بأقمشة ناعمة وأخشاب طبيعية ولمسات زرقاء تنقل المنظر إلى الداخل.",
-    },
-    body: {
-      en: [
-        "Overlooking the marina at Port Rashid, the residence is planned around its views. Living spaces sit behind floor-to-ceiling glass, while layered curtains, warm timber and textured rugs soften the light and the scale.",
-        "Sculptural lighting, slatted timber screens and hand-finished surfaces give each room its own character, from the living and dining areas to the bedroom, the bathroom and the gym.",
-      ],
-      ar: [
-        "يطل المسكن على مرسى ميناء راشد، وقد خُطّط حول إطلالاته. تقع مساحات المعيشة خلف واجهات زجاجية من الأرض حتى السقف، فيما تُليّن الستائر المتعددة الطبقات والأخشاب الدافئة والسجاد المنسوج الضوءَ والمقياس.",
-        "وتمنح الإضاءة النحتية والحواجز الخشبية المشبّكة والأسطح المشغولة يدوياً كل غرفة طابعها الخاص، من مساحات المعيشة والطعام إلى غرفة النوم والحمّام والنادي الرياضي.",
-      ],
-    },
-    caption: { en: "A bedroom framed by the marina.", ar: "غرفة نوم يؤطّرها المرسى." },
+    title: "Port Rashid",
+    category: "Waterfront residence",
+    location: "Port Rashid, Dubai",
+    scope: "Interior design · Visualisation",
+    summary: "A waterfront residence where every room turns towards the sea, with soft textiles, natural timber and blue accents that carry the view inside.",
+    body: [
+      "Overlooking the marina at Port Rashid, the residence is planned around its views. Living spaces sit behind floor-to-ceiling glass, while layered curtains, warm timber and textured rugs soften the light and the scale.",
+      "Sculptural lighting, slatted timber screens and hand-finished surfaces give each room its own character, from the living and dining areas to the bedroom, the bathroom and the gym.",
+    ],
+    caption: "A bedroom framed by the marina.",
     cover: prCover,
     detail: prDetail,
     gallery: [
-      { src: pr01, alt: { en: "Living room with a panoramic view over the marina", ar: "غرفة المعيشة بإطلالة بانورامية على المرسى" } },
-      { src: pr02, alt: { en: "Lounge with a sculptural light and slatted timber screens", ar: "صالة بإضاءة نحتية وحواجز خشبية مشبّكة" } },
-      { src: pr03, alt: { en: "Bedroom overlooking the marina", ar: "غرفة نوم تطل على المرسى" } },
-      { src: pr04, alt: { en: "Bathroom with twin rounded mirrors and an oak vanity", ar: "حمّام بمرآتين مستديرتين ووحدة مغسلة من البلوط" } },
-      { src: pr05, alt: { en: "Gym with views across the city", ar: "نادٍ رياضي بإطلالة على المدينة" } },
+      { src: pr01, alt: "Living room with a panoramic view over the marina" },
+      { src: pr02, alt: "Lounge with a sculptural light and slatted timber screens" },
+      { src: pr03, alt: "Bedroom overlooking the marina" },
+      { src: pr04, alt: "Bathroom with twin rounded mirrors and an oak vanity" },
+      { src: pr05, alt: "Gym with views across the city" },
     ],
   },
   {
     slug: "private-villa",
-    title: { en: "Private Villa", ar: "فيلا خاصة" },
-    category: { en: "Private villa", ar: "فيلا خاصة" },
-    location: { en: "Dubai, UAE", ar: "دبي، الإمارات" },
-    scope: { en: "Interior architecture · Visualisation", ar: "العمارة الداخلية · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A private villa in Dubai where dramatic marble, warm timber and concealed light create a sequence of calm, hotel-like spaces — from the lounge to a private spa.",
-      ar: "فيلا خاصة في دبي يصنع فيها الرخام اللافت والخشب الدافئ والإضاءة المخفية تتابعاً من المساحات الهادئة بأجواء فندقية — من الصالة إلى منتجع صحي خاص.",
-    },
-    body: {
-      en: [
-        "The villa unfolds around a bright double-height atrium and a sculptural marble staircase. Living spaces pair soft, low furniture with bold stone — black-veined marble at the kitchen island and book-matched slabs in the bathrooms.",
-        "Below, a private spa with an indoor pool and a treatment room continues the same palette of warm timber and concealed light.",
-      ],
-      ar: [
-        "تتكشّف الفيلا حول بهو مضيء بارتفاع طابقين ودرج رخامي نحتي. وتجمع مساحات المعيشة بين الأثاث المنخفض الناعم والحجر الجريء — رخام معرّق بالأسود في جزيرة المطبخ وألواح رخامية متناظرة في الحمّامات.",
-        "وفي الطابق السفلي، يواصل منتجع صحي خاص بمسبح داخلي وغرفة علاج لوحةَ المواد نفسها من الخشب الدافئ والإضاءة المخفية.",
-      ],
-    },
-    caption: { en: "Marble staircase rising beside the atrium.", ar: "درج رخامي يرتفع بجانب البهو." },
+    title: "Private Villa",
+    category: "Private villa",
+    location: "Dubai, UAE",
+    scope: "Interior architecture · Visualisation",
+    summary: "A private villa in Dubai where dramatic marble, warm timber and concealed light create a sequence of calm, hotel-like spaces — from the lounge to a private spa.",
+    body: [
+      "The villa unfolds around a bright double-height atrium and a sculptural marble staircase. Living spaces pair soft, low furniture with bold stone — black-veined marble at the kitchen island and book-matched slabs in the bathrooms.",
+      "Below, a private spa with an indoor pool and a treatment room continues the same palette of warm timber and concealed light.",
+    ],
+    caption: "Marble staircase rising beside the atrium.",
     year: "2019",
     cover: pvCover,
     detail: pvDetail,
     gallery: [
-      { src: pv01, alt: { en: "Evening lounge with low sofas and concealed lighting", ar: "صالة مسائية بأرائك منخفضة وإضاءة مخفية" } },
-      { src: pv02, alt: { en: "Living room with a sculptural coffee table and garden views", ar: "غرفة المعيشة بطاولة قهوة نحتية وإطلالة على الحديقة" } },
-      { src: pv03, alt: { en: "Kitchen island in black-veined marble", ar: "جزيرة مطبخ من الرخام المعرّق بالأسود" } },
-      { src: pv04, alt: { en: "Double-height atrium with a floating staircase", ar: "بهو بارتفاع طابقين ودرج معلّق" } },
-      { src: pv05, alt: { en: "Sculptural staircase clad in white marble", ar: "درج نحتي مكسوّ بالرخام الأبيض" } },
-      { src: pv06, alt: { en: "Master bedroom with an open bathroom", ar: "غرفة النوم الرئيسية بحمّام مفتوح" } },
-      { src: pv07, alt: { en: "Bathroom with book-matched marble and a freestanding tub", ar: "حمّام برخام متناظر وحوض مستقل" } },
-      { src: pv08, alt: { en: "Indoor pool lined with timber and light", ar: "مسبح داخلي محاط بالخشب والضوء" } },
-      { src: pv09, alt: { en: "Spa treatment room in warm timber", ar: "غرفة علاج في المنتجع الصحي من الخشب الدافئ" } },
+      { src: pv01, alt: "Evening lounge with low sofas and concealed lighting" },
+      { src: pv02, alt: "Living room with a sculptural coffee table and garden views" },
+      { src: pv03, alt: "Kitchen island in black-veined marble" },
+      { src: pv04, alt: "Double-height atrium with a floating staircase" },
+      { src: pv05, alt: "Sculptural staircase clad in white marble" },
+      { src: pv06, alt: "Master bedroom with an open bathroom" },
+      { src: pv07, alt: "Bathroom with book-matched marble and a freestanding tub" },
+      { src: pv08, alt: "Indoor pool lined with timber and light" },
+      { src: pv09, alt: "Spa treatment room in warm timber" },
     ],
   },
   {
     slug: "wsa-office",
     featured: true,
-    title: { en: "WSA Office", ar: "مكتب WSA" },
-    category: { en: "Workplace", ar: "مساحة عمل" },
-    location: { en: "Dubai, UAE", ar: "دبي، الإمارات" },
-    scope: { en: "Interior design · Visualisation", ar: "التصميم الداخلي · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A workplace with the poise of a hotel lobby — sculpted seating, curved lines of light, glass and a statement wall of rose marble.",
-      ar: "مساحة عمل بأناقة ردهة فندقية — مقاعد نحتية وخطوط ضوء منحنية وزجاج وجدار لافت من الرخام الوردي.",
-    },
-    body: {
-      en: [
-        "The office opens with a reception that feels closer to hospitality than to a corporate floor: a sculptural round desk, soft seating and curved lines of light drawn across the ceiling.",
-        "Glass meeting rooms keep the plan open and bright, while rose marble, fluted bronze and pale timber give the space warmth and a clear identity.",
-      ],
-      ar: [
-        "يستقبل المكتب زوّاره بمنطقة استقبال أقرب إلى أجواء الضيافة منها إلى طابق مؤسسي: مكتب دائري نحتي، ومقاعد ناعمة، وخطوط ضوء منحنية مرسومة على السقف.",
-        "وتحافظ غرف الاجتماعات الزجاجية على انفتاح المساحة وإشراقها، بينما يمنحها الرخام الوردي والبرونز المضلّع والخشب الفاتح دفئاً وهوية واضحة.",
-      ],
-    },
-    caption: { en: "Rose marble and fluted bronze at the entrance.", ar: "رخام وردي وبرونز مضلّع عند المدخل." },
+    title: "WSA Office",
+    category: "Workplace",
+    location: "Dubai, UAE",
+    scope: "Interior design · Visualisation",
+    summary: "A workplace with the poise of a hotel lobby — sculpted seating, curved lines of light, glass and a statement wall of rose marble.",
+    body: [
+      "The office opens with a reception that feels closer to hospitality than to a corporate floor: a sculptural round desk, soft seating and curved lines of light drawn across the ceiling.",
+      "Glass meeting rooms keep the plan open and bright, while rose marble, fluted bronze and pale timber give the space warmth and a clear identity.",
+    ],
+    caption: "Rose marble and fluted bronze at the entrance.",
     cover: wsCover,
     detail: wsDetail,
     gallery: [
-      { src: ws01, alt: { en: "Lounge with sculptural seating beneath curved light lines", ar: "صالة بمقاعد نحتية أسفل خطوط ضوء منحنية" } },
-      { src: ws02, alt: { en: "Round reception desk in the entrance hall", ar: "مكتب استقبال دائري في بهو المدخل" } },
-      { src: ws03, alt: { en: "Rose marble wall and fluted bronze panels", ar: "جدار من الرخام الوردي وألواح برونزية مضلّعة" } },
-      { src: ws04, alt: { en: "Glass meeting rooms around the open floor", ar: "غرف اجتماعات زجاجية حول المساحة المفتوحة" } },
-      { src: ws05, alt: { en: "Reception with the WSA logo wall", ar: "منطقة الاستقبال وجدار شعار WSA" } },
-      { src: ws06, alt: { en: "Reception desk and waiting area", ar: "مكتب الاستقبال ومنطقة الانتظار" } },
+      { src: ws01, alt: "Lounge with sculptural seating beneath curved light lines" },
+      { src: ws02, alt: "Round reception desk in the entrance hall" },
+      { src: ws03, alt: "Rose marble wall and fluted bronze panels" },
+      { src: ws04, alt: "Glass meeting rooms around the open floor" },
+      { src: ws05, alt: "Reception with the WSA logo wall" },
+      { src: ws06, alt: "Reception desk and waiting area" },
     ],
   },
   {
     slug: "al-gurum-villa",
-    title: { en: "Al Gurum Villa", ar: "فيلا القرم" },
-    category: { en: "Private villa", ar: "فيلا خاصة" },
-    location: { en: "Abu Dhabi, UAE", ar: "أبوظبي، الإمارات" },
-    scope: { en: "Interior architecture · Visualisation", ar: "العمارة الداخلية · التصوّر ثلاثي الأبعاد" },
-    summary: {
-      en: "A villa in Abu Dhabi shaped by soft curves — sweeping timber columns, flowing ceilings and generous, light-filled rooms for family and guests.",
-      ar: "فيلا في أبوظبي تُشكّلها الانحناءات الناعمة — أعمدة خشبية منسابة وأسقف متموّجة وغرف رحبة مفعمة بالضوء للعائلة والضيوف.",
-    },
-    body: {
-      en: [
-        "Curved walls and ceilings guide movement through the villa's reception spaces, where rounded timber columns frame a lounge with a linear fireplace and full-height glazing.",
-        "A formal dining room for large gatherings sits beneath a cascading chandelier, while the private rooms are finished in pale stone, warm timber and soft textiles.",
-      ],
-      ar: [
-        "توجّه الجدران والأسقف المنحنية الحركة عبر مساحات الاستقبال في الفيلا، حيث تؤطّر الأعمدة الخشبية المستديرة صالةً بمدفأة طولية وواجهات زجاجية كاملة.",
-        "وتقع غرفة طعام رسمية للتجمعات الكبيرة أسفل ثريا متدرّجة، فيما تُشطَّب الغرف الخاصة بالحجر الفاتح والخشب الدافئ والأقمشة الناعمة.",
-      ],
-    },
-    caption: { en: "Bedroom in warm timber and pale stone.", ar: "غرفة نوم من الخشب الدافئ والحجر الفاتح." },
+    title: "Al Gurum Villa",
+    category: "Private villa",
+    location: "Abu Dhabi, UAE",
+    scope: "Interior architecture · Visualisation",
+    summary: "A villa in Abu Dhabi shaped by soft curves — sweeping timber columns, flowing ceilings and generous, light-filled rooms for family and guests.",
+    body: [
+      "Curved walls and ceilings guide movement through the villa's reception spaces, where rounded timber columns frame a lounge with a linear fireplace and full-height glazing.",
+      "A formal dining room for large gatherings sits beneath a cascading chandelier, while the private rooms are finished in pale stone, warm timber and soft textiles.",
+    ],
+    caption: "Bedroom in warm timber and pale stone.",
     year: "2018",
     featured: true,
     cover: agCover,
     detail: agDetail,
     gallery: [
-      { src: ag01, alt: { en: "Reception lounge with curved timber columns and a linear fireplace", ar: "صالة استقبال بأعمدة خشبية منحنية ومدفأة طولية" } },
-      { src: ag02, alt: { en: "Living room with a large artwork and low sofas", ar: "غرفة المعيشة بعمل فني كبير وأرائك منخفضة" } },
-      { src: ag03, alt: { en: "Formal dining room beneath a cascading chandelier", ar: "غرفة طعام رسمية أسفل ثريا متدرّجة" } },
-      { src: ag04, alt: { en: "Lounge beneath a flowing curved ceiling", ar: "صالة أسفل سقف منحنٍ متموّج" } },
-      { src: ag05, alt: { en: "Bedroom with a timber headboard wall", ar: "غرفة نوم بجدار خشبي خلف السرير" } },
-      { src: ag06, alt: { en: "Bathroom with a freestanding tub and marble walls", ar: "حمّام بحوض مستقل وجدران رخامية" } },
+      { src: ag01, alt: "Reception lounge with curved timber columns and a linear fireplace" },
+      { src: ag02, alt: "Living room with a large artwork and low sofas" },
+      { src: ag03, alt: "Formal dining room beneath a cascading chandelier" },
+      { src: ag04, alt: "Lounge beneath a flowing curved ceiling" },
+      { src: ag05, alt: "Bedroom with a timber headboard wall" },
+      { src: ag06, alt: "Bathroom with a freestanding tub and marble walls" },
     ],
   },
 ];
@@ -411,43 +329,28 @@ export type Project = {
   gallery: (Img & { portrait?: boolean })[];
 };
 
-const localize = (p: ProjectData, locale: Locale): Project => {
-  const gallery = p.gallery.map((g) => ({ src: g.src, alt: g.alt[locale], portrait: g.portrait }));
-  return {
-    slug: p.slug,
-    title: p.title[locale],
-    category: p.category[locale],
-    location: p.location[locale],
-    scope: p.scope[locale],
-    summary: p.summary[locale],
-    body: p.body[locale],
-    caption: p.caption[locale],
-    year: p.year,
-    featured: p.featured,
-    credits: p.credits,
-    film: p.film,
-    cover: { src: p.cover, alt: gallery[0].alt },
-    detail: { src: p.detail, alt: p.caption[locale] },
-    hero: gallery[0],
-    gallery,
-  };
-};
+// Naslovna i detaljna slika dobijaju alt tekst iz galerije, odnosno iz potpisa.
+const toProject = (p: ProjectData): Project => ({
+  ...p,
+  cover: { src: p.cover, alt: p.gallery[0].alt },
+  detail: { src: p.detail, alt: p.caption },
+  hero: p.gallery[0],
+});
 
 export const PROJECT_SLUGS = projects.map((p) => p.slug);
 
-export const getProjects = (locale: Locale) => projects.map((p) => localize(p, locale));
+export const getProjects = () => projects.map(toProject);
 
 /** Izbor projekata za početnu stranu. */
-export const getFeaturedProjects = (locale: Locale) =>
-  projects.filter((p) => p.featured).map((p) => localize(p, locale));
+export const getFeaturedProjects = () => projects.filter((p) => p.featured).map(toProject);
 
-export const getProject = (locale: Locale, slug: string) => {
+export const getProject = (slug: string) => {
   const p = projects.find((item) => item.slug === slug);
-  return p ? localize(p, locale) : undefined;
+  return p ? toProject(p) : undefined;
 };
 
 /** Sledeći projekat (kružno), za dno strane projekta. */
-export const getNextProject = (locale: Locale, slug: string) => {
+export const getNextProject = (slug: string) => {
   const i = projects.findIndex((item) => item.slug === slug);
-  return localize(projects[(i + 1) % projects.length], locale);
+  return toProject(projects[(i + 1) % projects.length]);
 };

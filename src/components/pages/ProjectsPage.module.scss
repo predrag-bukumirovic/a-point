@@ -3,11 +3,12 @@
   grid-template-columns: 1fr auto;
   align-items: end;
   gap: 32px var(--gutter);
-  padding: calc(var(--header-h) + clamp(56px, 10svh, 120px)) var(--gutter) clamp(48px, 8svh, 96px);
+  padding: calc(var(--header-h) + clamp(56px, 10svh, 120px)) var(--pad)
+    clamp(48px, 8svh, 96px);
 
   :global(.heading) {
     margin-top: 12px;
-    font-size: clamp(48px, 7.4vw, 150px);
+    font-size: var(--h-hero);
   }
 }
 
@@ -20,7 +21,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(48px, 8svh, 100px) var(--gutter);
-  padding: 0 var(--gutter) clamp(90px, 14svh, 170px);
+  padding: 0 var(--pad) clamp(90px, 14svh, 170px);
 }
 
 // Druga kolona je spuštena, kao u časopisu.
@@ -33,8 +34,16 @@
 }
 
 .archive {
-  padding: clamp(40px, 6svh, 80px) var(--gutter) clamp(90px, 14svh, 170px);
-  border-top: 1px solid var(--line);
+  position: relative;
+  padding: clamp(40px, 6svh, 80px) var(--pad) clamp(90px, 14svh, 170px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 var(--pad) auto;
+    height: 1px;
+    background: var(--line);
+  }
 }
 
 .archiveHead {
@@ -74,17 +83,13 @@
   justify-content: space-between;
   gap: 16px;
   margin-top: 18px;
-  font-size: 13px;
-  color: var(--muted);
 }
 
 .title {
   margin-top: 10px;
-  font-family: var(--serif);
-  font-variation-settings: "wdth" 80;
-  font-weight: 400;
-  font-size: clamp(30px, 3vw, 58px);
-  line-height: 1;
+  font-size: var(--h-sub);
+  line-height: 1.18;
+  letter-spacing: var(--track);
   text-transform: uppercase;
 }
 
@@ -95,8 +100,7 @@
   margin-top: 18px;
   padding-bottom: 5px;
   border-bottom: 1px solid currentColor;
-  font-size: 12px;
-  font-weight: 500;
+  letter-spacing: var(--track);
   text-transform: uppercase;
 
   :global(.arrow) {
@@ -107,16 +111,6 @@
 
 .card:hover .more :global(.arrow) {
   transform: translateX(6px);
-}
-
-:global([dir="rtl"]) {
-  .title {
-    line-height: 1.25;
-  }
-
-  .card:hover .more :global(.arrow) {
-    transform: scaleX(-1) translateX(6px);
-  }
 }
 
 @media (max-width: 900px) {

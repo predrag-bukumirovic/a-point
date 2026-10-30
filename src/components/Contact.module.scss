@@ -3,13 +3,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gutter);
-  padding: clamp(80px, 11svh, 130px) var(--gutter) clamp(100px, 16svh, 180px);
-  background: var(--paper);
+  padding: var(--space) var(--pad);
+  background: var(--cream);
 }
 
 .intro {
   :global(.heading) {
-    margin-top: 12px;
+    margin-top: 22px;
   }
 
   :global(.body-text) {
@@ -31,16 +31,16 @@
 
 .city {
   display: block;
-  font-family: var(--serif);
-  font-size: clamp(26px, 2.2vw, 40px);
-  line-height: 1.1;
+  font-size: var(--h-sub);
+  line-height: 1.18;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
 }
 
 .country {
   display: block;
   margin-top: 6px;
-  font-size: 13px;
-  color: var(--muted);
+  font-size: var(--fs-body);
 }
 
 .side {
@@ -49,7 +49,7 @@
 
 .methods {
   margin-top: 18px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--sand);
 }
 
 .method {
@@ -58,7 +58,7 @@
   align-items: center;
   gap: 16px;
   padding: clamp(18px, 2vw, 28px) 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--sand);
   transition: padding 0.5s var(--ease);
 
   &:hover {
@@ -71,52 +71,40 @@
 }
 
 .methodLabel {
-  font-size: 13px;
-  letter-spacing: 0.02em;
+  font-size: var(--fs-body);
+  letter-spacing: var(--track);
   text-transform: uppercase;
-  color: var(--muted);
 }
 
 .methodValue {
-  font-family: var(--serif);
-  font-size: clamp(22px, 1.9vw, 34px);
-  line-height: 1.15;
+  font-size: var(--h-sub);
+  line-height: 1.18;
   word-break: break-word;
-}
-
-// RTL: tekst je s desna, ali brojevi i adrese ostaju LTR (dir="ltr"), pa ih poravnavamo na početak reda.
-.methodValue[dir="ltr"] {
-  text-align: start;
 }
 
 .methodArrow {
   transition: transform 0.5s var(--ease);
 }
 
-.enquiry {
-  margin-top: clamp(32px, 4vw, 52px);
+// Manji redovi na kontakt strani, gde stoje pored forme.
+.compact {
+  .method {
+    padding: clamp(14px, 1.4vw, 20px) 0;
+  }
+
+  .methodValue {
+    font-size: clamp(16px, 0.85rem + 0.5vw, 20px);
+  }
 }
 
-:global([dir="rtl"]) {
-  .methodValue[dir="ltr"] {
-    text-align: right;
-  }
-
-  .method:hover .methodArrow {
-    transform: scaleX(-1) translateX(6px);
-  }
-
-  .methodLabel {
-    letter-spacing: 0;
-  }
+.enquiry {
+  margin-top: clamp(32px, 4vw, 52px);
 }
 
 @media (max-width: 900px) {
   .contact {
     grid-template-columns: 1fr;
     gap: 56px;
-    padding-top: calc(var(--header-h) + 32px);
-    padding-bottom: 80px;
   }
 
   .method {

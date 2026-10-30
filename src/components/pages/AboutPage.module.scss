@@ -2,14 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: var(--gutter);
-  padding: clamp(80px, 14svh, 170px) var(--gutter) clamp(60px, 10svh, 120px);
+  padding: clamp(80px, 14svh, 170px) var(--pad) clamp(60px, 10svh, 120px);
 }
 
 .statement {
-  font-family: var(--serif);
-  font-size: clamp(26px, 2.7vw, 52px);
+  font-weight: 300;
+  font-size: var(--h-sub);
   line-height: 1.18;
-  letter-spacing: -0.005em;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
   max-width: 1100px;
 }
 
@@ -25,22 +26,23 @@
   }
 
   dt {
-    font-size: 13px;
-    color: var(--muted);
+    letter-spacing: var(--track);
+    text-transform: uppercase;
   }
 
   dd {
     margin-top: 10px;
-    font-family: var(--serif);
-    font-size: clamp(20px, 1.7vw, 32px);
-    line-height: 1.2;
+    font-size: var(--h-sub);
+    line-height: 1.18;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
   }
 }
 
 /* ---------- Direktori ---------- */
 
 .team {
-  padding: clamp(60px, 10svh, 120px) var(--gutter) clamp(80px, 12svh, 150px);
+  padding: clamp(60px, 10svh, 120px) var(--pad) clamp(80px, 12svh, 150px);
   background: var(--cream);
 
   header :global(.heading) {
@@ -50,19 +52,22 @@
 
 .people {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(48px, 6vw, 120px);
+  gap: clamp(56px, 7vw, 110px);
   margin-top: clamp(48px, 8svh, 96px);
 }
 
+// Jedan red po direktoru: fotografija | ime | biografija u dve kolone.
 .person {
   display: grid;
-  grid-template-columns: minmax(140px, 0.7fr) 1fr;
-  gap: clamp(20px, 2.4vw, 40px);
-  align-items: start;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, 2fr);
+  grid-template-areas: "photo name bio";
+  gap: clamp(24px, 2.6vw, 48px) var(--gutter);
+  padding-top: clamp(24px, 2.4vw, 36px);
+  border-top: 1px solid var(--sand);
 }
 
 .portrait {
+  grid-area: photo;
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
@@ -74,35 +79,30 @@
   }
 }
 
-.personText {
-  h3 {
-    font-family: var(--serif);
-    font-variation-settings: "wdth" 80;
-    font-weight: 400;
-    font-size: clamp(28px, 2.4vw, 46px);
-    line-height: 1;
-    text-transform: uppercase;
-  }
+.name {
+  grid-area: name;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
-  :global(.body-text) {
-    margin-top: 14px;
-    font-size: clamp(14px, 0.95vw, 16px);
+  h3 {
+    font-size: var(--h-sub);
+    line-height: 1.18;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
   }
 }
 
 .role {
-  margin: 10px 0 8px;
-  font-size: 13px;
+  margin-top: 10px;
+  letter-spacing: var(--track);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
 }
 
 .email {
-  display: inline-block;
-  margin-top: 18px;
-  font-size: 14px;
-  border-bottom: 1px solid var(--line);
+  margin-top: auto;
+  padding-top: 24px;
+  border-bottom: 1px solid var(--sand);
   transition: border-color 0.4s var(--ease);
 
   &:hover {
@@ -110,10 +110,18 @@
   }
 }
 
+.bio {
+  grid-area: bio;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+  gap: 14px var(--gutter);
+}
+
 /* ---------- Klijenti ---------- */
 
 .clients {
-  padding: clamp(80px, 12svh, 150px) var(--gutter) clamp(40px, 6svh, 80px);
+  padding: clamp(80px, 12svh, 150px) var(--pad) clamp(40px, 6svh, 80px);
 
   header :global(.heading) {
     margin-top: 12px;
@@ -133,22 +141,21 @@
 
   h3 {
     margin-bottom: 12px;
-    font-family: var(--serif);
-    font-weight: 400;
-    font-size: clamp(22px, 1.8vw, 34px);
-    line-height: 1.15;
+    font-size: var(--h-sub);
+    line-height: 1.18;
+    letter-spacing: var(--track);
+    text-transform: uppercase;
   }
 
   p {
     max-width: 380px;
-    font-size: clamp(14px, 1vw, 17px);
-    line-height: 1.55;
+    line-height: 1.4;
     color: var(--text);
   }
 }
 
 .principles {
-  padding: clamp(40px, 6svh, 80px) var(--gutter) clamp(80px, 14svh, 160px);
+  padding: clamp(40px, 6svh, 80px) var(--pad) clamp(80px, 14svh, 160px);
 
   header :global(.heading) {
     margin-top: 12px;
@@ -168,19 +175,16 @@
   }
 
   h3 {
-    margin: 0 0 16px;
-    font-family: var(--serif);
-    font-variation-settings: "wdth" 80;
-    font-weight: 400;
-    font-size: clamp(26px, 2.2vw, 42px);
-    line-height: 1.05;
+    margin: 0 0 12px;
+    font-size: var(--h-sub);
+    line-height: 1.18;
+    letter-spacing: var(--track);
     text-transform: uppercase;
   }
 
   p {
     max-width: 380px;
-    font-size: clamp(14px, 1vw, 17px);
-    line-height: 1.55;
+    line-height: 1.4;
     color: var(--text);
   }
 }
@@ -190,7 +194,7 @@
   grid-template-columns: 42% 1fr;
   gap: clamp(32px, 6vw, 120px);
   align-items: end;
-  padding: clamp(80px, 12svh, 150px) var(--gutter) clamp(90px, 16svh, 180px);
+  padding: clamp(80px, 12svh, 150px) var(--pad) clamp(90px, 16svh, 180px);
 }
 
 .frame {
@@ -249,21 +253,19 @@
   width: 100%;
 
   :global(.label) {
-    color: rgba(255, 255, 255, 0.75);
+    color: #fff;
   }
 
   :global(.heading) {
     margin-top: 12px;
-    font-size: clamp(44px, 7vw, 140px);
+    font-size: var(--h-hero);
   }
 }
 
 .locationsText {
   max-width: 440px;
   margin-top: clamp(20px, 3vw, 40px);
-  font-size: clamp(14px, 1vw, 17px);
-  line-height: 1.5;
-  opacity: 0.9;
+  line-height: 1.4;
 }
 
 .studios {
@@ -277,31 +279,34 @@
 
 .city {
   display: block;
-  font-family: var(--serif);
-  font-size: clamp(24px, 2vw, 36px);
+  font-size: var(--h-sub);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
 }
 
 .country {
   display: block;
   margin-top: 4px;
-  font-size: 13px;
-  opacity: 0.75;
 }
 
-:global([dir="rtl"]) {
-  .role {
-    letter-spacing: 0;
+@media (max-width: 1200px) {
+  .person {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-areas:
+      "photo name"
+      "photo bio";
+    grid-template-rows: auto 1fr;
   }
 
-  .personText h3 {
-    line-height: 1.25;
+  .bio {
+    grid-template-columns: 1fr;
+    max-width: 640px;
   }
 }
 
 @media (max-width: 900px) {
   .intro,
-  .approach,
-  .people {
+  .approach {
     grid-template-columns: 1fr;
   }
 
@@ -314,9 +319,14 @@
 
   .person {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "photo"
+      "name"
+      "bio";
+    grid-template-rows: none;
   }
 
   .portrait {
-    width: min(70%, 320px);
+    width: min(60%, 280px);
   }
 }

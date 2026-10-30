@@ -1,10 +1,9 @@
 import Link from "next/link";
 import type { CSSProperties, ElementType } from "react";
 
-/** Kašnjenje animacije otkrivanja, u sekundama. */
-export const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as CSSProperties;
+export const delay = (seconds: number) =>
+  ({ "--d": `${seconds}s` }) as CSSProperties;
 
-/** Naslov čiji redovi izlaze iz maske, jedan za drugim. */
 export function Heading({
   lines,
   as: Tag = "h2",
@@ -20,14 +19,17 @@ export function Heading({
     <Tag className={className ? `heading ${className}` : "heading"}>
       {lines.map((line, i) => (
         <span className="line" key={line}>
-          <span style={{ "--i": i, "--d": `${start}s` } as CSSProperties}>{line}</span>
+          {i > 0 && " "}
+          <span style={{ "--i": i, "--d": `${start}s` } as CSSProperties}>
+            {line}
+          </span>
         </span>
       ))}
     </Tag>
   );
 }
 
-/** Strelica „napred“; na arapskom (RTL) se automatski okreće (vidi globals.scss). */
+/** Strelica „napred“. */
 export function Arrow({ className }: { className?: string }) {
   return (
     <svg
@@ -38,12 +40,38 @@ export function Arrow({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <path d="M0 6h20.5M15.5 1l5 5-5 5" stroke="currentColor" strokeWidth="1.2" />
+      <path
+        d="M0 6h20.5M15.5 1l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
     </svg>
   );
 }
 
-/** Link sa strelicom. Interne putanje (/…) idu kroz next/link, ostalo kao običan <a>. */
+/** Plus uz linkove („Read more +“); pri prelazu mišem se okrene (globals.scss). */
+export function Plus({
+  className,
+  size = 11,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 11 11"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M5.5 0v11M0 5.5h11" stroke="currentColor" strokeWidth="1.1" />
+    </svg>
+  );
+}
+
+/** Link sa plusom. Interne putanje (/…) idu kroz next/link, ostalo kao običan <a>. */
 export function TextLink({
   href,
   label,
@@ -57,11 +85,14 @@ export function TextLink({
   style?: CSSProperties;
   external?: boolean;
 }) {
-  const props = { className: className ? `text-link ${className}` : "text-link", style };
+  const props = {
+    className: className ? `text-link ${className}` : "text-link",
+    style,
+  };
   const content = (
     <>
-      <bdi>{label}</bdi>
-      <Arrow />
+      <span>{label}</span>
+      <Plus />
     </>
   );
 
@@ -73,7 +104,11 @@ export function TextLink({
     );
   }
   return (
-    <a href={href} {...props} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+    <a
+      href={href}
+      {...props}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
       {content}
     </a>
   );

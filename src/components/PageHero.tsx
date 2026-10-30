@@ -4,7 +4,6 @@ import type { Img } from "@/content/site";
 import { Heading } from "./ui";
 import styles from "./PageHero.module.scss";
 
-/** Naslovna slika unutrašnjih strana: tamna fotografija, naslov i kratak tekst u donjem uglu. */
 export default function PageHero({
   image,
   label,
@@ -21,7 +20,14 @@ export default function PageHero({
   return (
     <section className={styles.hero}>
       <div className={styles.media}>
-        <Image src={image.src} alt={image.alt} fill priority sizes="100vw" placeholder="blur" />
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority
+          sizes="100vw"
+          placeholder="blur"
+        />
       </div>
       <div className={styles.overlay} />
 

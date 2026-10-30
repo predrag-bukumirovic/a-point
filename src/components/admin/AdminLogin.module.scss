@@ -1,0 +1,151 @@
+.login {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 38%);
+  min-height: 100svh;
+}
+
+/* ---------- Fotografija ---------- */
+
+.media {
+  position: relative;
+  overflow: hidden;
+  background: var(--dark);
+  color: #fff;
+
+  img {
+    object-fit: cover;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 24%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 50%);
+  }
+}
+
+.mediaLogo {
+  position: absolute;
+  top: 28px;
+  inset-inline-start: var(--gutter);
+  z-index: 1;
+}
+
+// Dve klase da nadjačaju osnovnu visinu iz Logo.module.scss.
+.login .logo {
+  height: 34px;
+}
+
+.quote {
+  position: absolute;
+  inset: auto var(--gutter) clamp(40px, 7svh, 72px);
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.26em;
+  max-width: 12em;
+  font-size: var(--h-hero);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+/* ---------- Forma ---------- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: clamp(40px, 5vw, 80px) clamp(24px, 4vw, 72px);
+}
+
+.panelLogo {
+  display: none;
+}
+
+.form {
+  display: grid;
+  gap: 28px;
+  width: min(100%, 400px);
+
+  button {
+    margin-top: 8px;
+  }
+}
+
+.title {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 8px;
+
+  :global(.body-text) {
+    font-size: 15px;
+  }
+}
+
+.password {
+  position: relative;
+
+  input {
+    padding-inline-end: 64px;
+  }
+}
+
+.reveal {
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 10px;
+  font-size: 12px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+.back {
+  width: min(100%, 400px);
+  font-size: 12px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+@media (max-width: 900px) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+
+  .media {
+    display: none;
+  }
+
+  .panel {
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .panelLogo {
+    display: block;
+  }
+
+  .form,
+  .back {
+    width: 100%;
+  }
+
+  .login .logo {
+    height: 28px;
+  }
+}

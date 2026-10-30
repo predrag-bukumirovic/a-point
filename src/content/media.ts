@@ -1,4 +1,4 @@
-/* Slike koje koriste strane (zajedničke za oba jezika; alt tekstovi su u rečnicima). */
+/* Slike koje koriste strane (alt tekstovi su u rečniku, en.ts). */
 
 export { default as heroWide } from "@/assets/images/hero/khalid-villa-living.jpg";
 export { default as heroTall } from "@/assets/images/hero/khalid-villa-living-tall.jpg";

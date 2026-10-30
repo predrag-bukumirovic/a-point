@@ -1,17 +1,12 @@
 import * as media from "./media";
 import { CONTACT } from "./site";
 
-/*
- * Svi tekstovi sajta na engleskom. Arapski (ar.ts) mora imati istu strukturu.
- * Putanje (href) su bez jezika — komponente dodaju /en ili /ar.
- */
-
 const post = (code: string) => `https://www.instagram.com/p/${code}/`;
 
 export const en = {
   meta: {
     title: "A Point — Architecture & Interior Design Studio in Dubai",
-    template: "%s — A Point, Dubai",
+    template: "%s | A Point",
     description:
       "A Point is an architecture and interior design studio in Dubai and Limassol, established in 2011, specialising in high-end residential developments and private villas.",
     ogLocale: "en_AE",
@@ -30,15 +25,14 @@ export const en = {
     close: "Close",
     home: "A Point — home",
     main: "Main menu",
-    mobile: "Mobile menu",
+    tabs: { pages: "Studio", projects: "Projects", services: "Services" },
     skip: "Skip to content",
-    switchLabel: "عربي",
-    switchTitle: "العربية",
   },
 
   ui: {
     viewProject: "View project",
     allProjects: "All projects",
+    allServices: "All services",
     prevProject: "Previous project",
     nextProject: "Next project",
     openImage: "Open image",
@@ -51,6 +45,8 @@ export const en = {
     call: "Call",
     email: "Email",
     instagram: "Instagram",
+    pauseVideo: "Pause video",
+    playVideo: "Play video",
   },
 
   home: {
@@ -70,8 +66,14 @@ export const en = {
       text: "We work where architecture and interior meet. Every project begins with the site, the light and the people who will live there — and is resolved down to the last joint, material and detail. The result is calm, precise space that feels as if it could not have been any other way.",
       cta: { label: "More about us", href: "/about" },
       images: [
-        { src: media.aboutBathroom, alt: "Stone bathroom of Ajman Villa lit by a skylight" },
-        { src: media.aboutKitchen, alt: "Kitchen island in pale stone with bar stools, Ajman Villa" },
+        {
+          src: media.aboutBathroom,
+          alt: "Stone bathroom of Ajman Villa lit by a skylight",
+        },
+        {
+          src: media.aboutKitchen,
+          alt: "Kitchen island in pale stone with bar stools, Ajman Villa",
+        },
       ],
     },
     featured: {
@@ -89,22 +91,34 @@ export const en = {
         {
           title: "Architecture",
           text: "Private villas and residences shaped by the site, the climate and the way you live.",
-          image: { src: media.serviceArchitecture, alt: "Living room of Ajman Villa in stone and pale timber" },
+          image: {
+            src: media.serviceArchitecture,
+            alt: "Living room of Ajman Villa in stone and pale timber",
+          },
         },
         {
           title: "Interior design",
           text: "Complete interior concepts — space planning, materials, lighting, furniture and art.",
-          image: { src: media.serviceInterior, alt: "Dining area of Khalid Villa with a sculptural chandelier" },
+          image: {
+            src: media.serviceInterior,
+            alt: "Dining area of Khalid Villa with a sculptural chandelier",
+          },
         },
         {
           title: "Visualisation & detailing",
           text: "Photorealistic 3D visualisation and precise detailing, so every decision is made before construction begins.",
-          image: { src: media.serviceDetailing, alt: "Bathroom with a green wall and a freestanding tub" },
+          image: {
+            src: media.serviceDetailing,
+            alt: "Bathroom with a green wall and a freestanding tub",
+          },
         },
         {
           title: "Residential developments",
           text: "Lobbies, amenities and show apartments for high-end residential developments.",
-          image: { src: media.serviceDevelopments, alt: "Lobby of Central Park Plaza with a tree and a sculptural staircase" },
+          image: {
+            src: media.serviceDevelopments,
+            alt: "Lobby of Central Park Plaza with a tree and a sculptural staircase",
+          },
         },
       ],
     },
@@ -118,25 +132,37 @@ export const en = {
           title: "Ajman Villa",
           text: "Oak, stone and soft, layered light.",
           href: post("DeYsqRmiC2t"),
-          image: { src: media.igAjman, alt: "Bedroom of Ajman Villa with a timber-framed opening" },
+          image: {
+            src: media.igAjman,
+            alt: "Bedroom of Ajman Villa with a timber-framed opening",
+          },
         },
         {
           title: "Khalid Villa",
           text: "Open living, defined by texture.",
           href: post("DeOXpmUiOcF"),
-          image: { src: media.igKhalid, alt: "Living area of Khalid Villa with a low sectional sofa" },
+          image: {
+            src: media.igKhalid,
+            alt: "Living area of Khalid Villa with a low sectional sofa",
+          },
         },
         {
           title: "Port Rashid",
           text: "Calm, precise and made to last.",
           href: post("Dd6GCK8ICMy"),
-          image: { src: media.igPortRashid, alt: "Bathroom with twin rounded mirrors and an oak vanity" },
+          image: {
+            src: media.igPortRashid,
+            alt: "Bathroom with twin rounded mirrors and an oak vanity",
+          },
         },
         {
           title: "WSA Office",
           text: "A workplace with the poise of a hotel.",
           href: post("Dd02PxaiL4N"),
-          image: { src: media.igWsa, alt: "Round reception desk beneath a curved light line, WSA office" },
+          image: {
+            src: media.igWsa,
+            alt: "Round reception desk beneath a curved light line, WSA office",
+          },
         },
       ],
     },
@@ -149,7 +175,10 @@ export const en = {
     methodsLabel: "Get in touch",
     instagramDm: "Message us on Instagram",
     enquiryCta: "Send an enquiry",
-    postal: { label: "Postal address", lines: ["P.O. Box 331208", "Ras Al Khaimah, United Arab Emirates"] },
+    postal: {
+      label: "Postal address",
+      lines: ["P.O. Box 331208", "Ras Al Khaimah, United Arab Emirates"],
+    },
     directorsLabel: "Directors",
     studiosLabel: "Studios",
     // Adresa studija (ulica, zgrada) — upisati kad bude poznata; prazna se ne prikazuje.
@@ -159,7 +188,7 @@ export const en = {
     ],
     form: {
       label: "Enquiry",
-      lines: ["Tell us about", "your project"],
+      lines: ["Tell us about your project"],
       fields: {
         name: "Full name",
         email: "Email",
@@ -169,26 +198,62 @@ export const en = {
         message: "Your message",
       },
       typePlaceholder: "Select",
-      types: ["Private villa", "Residence / apartment", "Residential development", "Workplace", "Other"],
-      privacy: { text: "By sending this form you agree to our", link: "privacy policy" },
+      types: [
+        "Private villa",
+        "Residence / apartment",
+        "Residential development",
+        "Workplace",
+        "Other",
+      ],
+      privacy: {
+        text: "By sending this form you agree to our",
+        link: "privacy policy",
+      },
       submit: "Send enquiry",
       sending: "Sending…",
-      success: { title: "Thank you.", text: "Your enquiry has been sent. We'll get back to you shortly." },
+      success: {
+        title: "Thank you.",
+        text: "Your enquiry has been sent. We'll get back to you shortly.",
+      },
+      // Poruke ispod polja; ključevi su greške iz lib/enquiry-rules.ts.
+      validation: {
+        name: {
+          required: "Please enter your name.",
+          short: "Please enter your full name.",
+        },
+        email: {
+          required: "Please enter your email address.",
+          invalid: "Please enter a valid email address, e.g. name@example.com.",
+        },
+        phone: {
+          invalid:
+            "Please enter a valid phone number with the country code, e.g. +971 50 123 4567.",
+        },
+        message: {
+          required: "Please tell us a little about your project.",
+          short: "Please write a little more — at least 10 characters.",
+        },
+      },
       errors: {
-        invalid: "Please fill in your name, a valid email address and a message.",
-        unavailable: "The form is temporarily unavailable. Please contact us on Instagram or WhatsApp.",
-        failed: "Something went wrong. Please try again or contact us directly.",
+        invalid: "Please check the highlighted fields and try again.",
+        unavailable:
+          "The form is temporarily unavailable. Please contact us on Instagram or WhatsApp.",
+        failed:
+          "Something went wrong. Please try again or contact us directly.",
       },
     },
   },
 
   contactPage: {
     meta: {
-      title: "Contact",
+      title: "Contact — Studios in Dubai & Limassol",
       description:
         "Contact A Point, architecture and interior design studio in Dubai and Limassol. Tell us about your villa, residence or development.",
     },
-    image: { src: media.contactImage, alt: "Bedroom overlooking the marina at Port Rashid, Dubai" },
+    image: {
+      src: media.contactImage,
+      alt: "Bedroom overlooking the marina at Port Rashid, Dubai",
+    },
     faq: {
       label: "FAQ",
       lines: ["Questions we're", "often asked"],
@@ -219,7 +284,7 @@ export const en = {
 
   aboutPage: {
     meta: {
-      title: "About",
+      title: "About Us — Architects & Interior Designers, Dubai",
       description:
         "A Point is an architecture and interior design studio in Dubai and Limassol. Our work is guided by spatial clarity, precision and context.",
     },
@@ -227,24 +292,36 @@ export const en = {
       label: "About",
       lines: ["Architecture", "and interior", "as one"],
       text: "We design private villas, residences and residential developments — from the first plan to the last detail.",
-      image: { src: media.studioHero, alt: "Kitchen island in pale stone beneath soft concealed light, Ajman Villa" },
+      image: {
+        src: media.studioHero,
+        alt: "Kitchen island in pale stone beneath soft concealed light, Ajman Villa",
+      },
     },
     intro: {
       label: "Who we are",
       text: "A Point is an international architecture and interior design practice, established in 2011 and led by Michael Pokroy and Dimitrije Dukic. We design high-end residential developments, private villas and interiors — with projects across the Middle East, Singapore, China and the USA.",
     },
     facts: [
-        { value: "2011", label: "Founded" },
-        { value: "Middle East · Asia · USA", label: "Projects across" },
-        { value: "Residential · Hospitality · Commercial", label: "Experience" },
+      { value: "2011", label: "Founded" },
+      { value: "Middle East · Asia · USA", label: "Projects across" },
+      { value: "Residential · Hospitality · Commercial", label: "Experience" },
     ],
     clients: {
       label: "Clients",
       lines: ["Who we", "work with"],
       items: [
-        { title: "Property developers", text: "We help developers make the most of every building — from the first plan to lobbies, amenities and show apartments." },
-        { title: "Commercial occupiers", text: "Efficient, productive workplaces that express who you are." },
-        { title: "Private clients", text: "Unique, personal homes — from private villas to residences." },
+        {
+          title: "Property developers",
+          text: "We help developers make the most of every building — from the first plan to lobbies, amenities and show apartments.",
+        },
+        {
+          title: "Commercial occupiers",
+          text: "Efficient, productive workplaces that express who you are.",
+        },
+        {
+          title: "Private clients",
+          text: "Unique, personal homes — from private villas to residences.",
+        },
       ],
     },
     team: {
@@ -298,7 +375,10 @@ export const en = {
         "Architecture and interiors are usually designed by different teams. We design them together, so the structure, the light, the materials and the furniture are part of the same idea.",
         "For private clients this means a home that feels complete. For developers it means lobbies, amenities and residences with a clear identity and a coherent experience.",
       ],
-      image: { src: media.studioApproach, alt: "Rose marble wall and fluted bronze panels at the WSA office" },
+      image: {
+        src: media.studioApproach,
+        alt: "Rose marble wall and fluted bronze panels at the WSA office",
+      },
     },
     locations: {
       label: "Studios",
@@ -310,7 +390,7 @@ export const en = {
 
   servicesPage: {
     meta: {
-      title: "Services",
+      title: "Architecture & Interior Design Services in Dubai",
       description:
         "Architecture, interior design, 3D visualisation and interiors for residential developments — for private villas and developers in Dubai and the UAE.",
     },
@@ -318,7 +398,10 @@ export const en = {
       label: "Services",
       lines: ["From plan", "to detail"],
       text: "Architecture, interiors and design development under one roof.",
-      image: { src: media.servicesHero, alt: "Sitting room with a linear fireplace and veined stone walls, Ajman Villa" },
+      image: {
+        src: media.servicesHero,
+        alt: "Sitting room with a linear fireplace and veined stone walls, Ajman Villa",
+      },
     },
     includesLabel: "Includes",
     items: [
@@ -326,8 +409,16 @@ export const en = {
         id: "architecture",
         title: "Architecture",
         text: "Private villas and residences shaped by the site, the climate and the way you live.",
-        includes: ["Site analysis and concept", "Planning and spatial layouts", "Facades, massing and materials", "Design development"],
-        image: { src: media.servicesArchitecture, alt: "Lounge with garden views and a stone feature wall, Ajman Villa" },
+        includes: [
+          "Site analysis and concept",
+          "Planning and spatial layouts",
+          "Facades, massing and materials",
+          "Design development",
+        ],
+        image: {
+          src: media.servicesArchitecture,
+          alt: "Lounge with garden views and a stone feature wall, Ajman Villa",
+        },
         note: "",
       },
       {
@@ -341,23 +432,42 @@ export const en = {
           "Joinery and bespoke furniture",
           "Furniture, art and accessories",
         ],
-        image: { src: media.servicesInterior, alt: "Dining room with a sculptural brass chandelier, Khalid Villa" },
+        image: {
+          src: media.servicesInterior,
+          alt: "Dining room with a sculptural brass chandelier, Khalid Villa",
+        },
         note: "",
       },
       {
         id: "visualisation",
         title: "Visualisation & detailing",
         text: "Photorealistic 3D visualisation and precise detailing, so every decision is made before construction begins.",
-        includes: ["Photorealistic 3D renders", "Material and finish boards", "Technical drawings and details", "Specifications"],
-        image: { src: media.servicesDetailing, alt: "Bathroom with a living green wall, Khalid Villa" },
+        includes: [
+          "Photorealistic 3D renders",
+          "Material and finish boards",
+          "Technical drawings and details",
+          "Specifications",
+        ],
+        image: {
+          src: media.servicesDetailing,
+          alt: "Bathroom with a living green wall, Khalid Villa",
+        },
         note: "",
       },
       {
         id: "developments",
         title: "Residential developments",
         text: "Interior design for developers — from arrival lobbies and amenities to show apartments.",
-        includes: ["Lobbies and amenity spaces", "Show apartments", "Unit layouts and finishes", "Visuals for sales and marketing"],
-        image: { src: media.servicesDevelopments, alt: "Lobby of Central Park Plaza with a tree and a sculptural staircase" },
+        includes: [
+          "Lobbies and amenity spaces",
+          "Show apartments",
+          "Unit layouts and finishes",
+          "Visuals for sales and marketing",
+        ],
+        image: {
+          src: media.servicesDevelopments,
+          alt: "Lobby of Central Park Plaza with a tree and a sculptural staircase",
+        },
         note: "Interior design consultant for Central Park Plaza by DHRE.",
       },
     ],
@@ -365,19 +475,37 @@ export const en = {
       label: "Process",
       lines: ["How a project", "unfolds"],
       steps: [
-        { title: "Brief & site", text: "We listen first: your brief, your site, your budget and the way you want to live or work." },
-        { title: "Concept", text: "A clear spatial idea, mood and material direction, presented with sketches and references." },
-        { title: "Design development", text: "Plans, elevations and interiors are developed together and refined with you." },
-        { title: "Visualisation", text: "Photorealistic renders show the spaces as they will be built — light, materials and furniture." },
-        { title: "Detailing", text: "Technical drawings, details and specifications that contractors can build from." },
-        { title: "Delivery", text: "We stay involved with contractors and suppliers so the design is built as intended." },
+        {
+          title: "Brief & site",
+          text: "We listen first: your brief, your site, your budget and the way you want to live or work.",
+        },
+        {
+          title: "Concept",
+          text: "A clear spatial idea, mood and material direction, presented with sketches and references.",
+        },
+        {
+          title: "Design development",
+          text: "Plans, elevations and interiors are developed together and refined with you.",
+        },
+        {
+          title: "Visualisation",
+          text: "Photorealistic renders show the spaces as they will be built — light, materials and furniture.",
+        },
+        {
+          title: "Detailing",
+          text: "Technical drawings, details and specifications that contractors can build from.",
+        },
+        {
+          title: "Delivery",
+          text: "We stay involved with contractors and suppliers so the design is built as intended.",
+        },
       ],
     },
   },
 
   projectsPage: {
     meta: {
-      title: "Projects",
+      title: "Projects — Villas, Residences & Workplaces",
       description:
         "Selected private villas, residences, residential developments and workplaces by A Point in Dubai and the UAE.",
     },
@@ -389,12 +517,30 @@ export const en = {
       lines: ["More from", "our portfolio"],
       text: "Selected interiors for villas, residences and hospitality projects from our earlier work.",
       images: [
-        { src: media.archive01, alt: "Bedroom with a sea view and a patterned rug" },
-        { src: media.archive02, alt: "Living room with a timber fireplace wall" },
-        { src: media.archive03, alt: "Bedroom with a library screen and a velvet sofa" },
-        { src: media.archive04, alt: "Living room with sculpture and a mirrored ceiling" },
-        { src: media.archive05, alt: "Living room with grey sofas and a patterned rug" },
-        { src: media.archive06, alt: "Hotel reception with a bronze bead wall" },
+        {
+          src: media.archive01,
+          alt: "Bedroom with a sea view and a patterned rug",
+        },
+        {
+          src: media.archive02,
+          alt: "Living room with a timber fireplace wall",
+        },
+        {
+          src: media.archive03,
+          alt: "Bedroom with a library screen and a velvet sofa",
+        },
+        {
+          src: media.archive04,
+          alt: "Living room with sculpture and a mirrored ceiling",
+        },
+        {
+          src: media.archive05,
+          alt: "Living room with grey sofas and a patterned rug",
+        },
+        {
+          src: media.archive06,
+          alt: "Hotel reception with a bronze bead wall",
+        },
       ],
     },
   },
@@ -420,7 +566,7 @@ export const en = {
 
   privacyPage: {
     meta: {
-      title: "Privacy policy",
+      title: "Privacy Policy",
       description: "How A Point handles the information you send us.",
     },
     title: "Privacy policy",
@@ -436,7 +582,7 @@ export const en = {
       },
       {
         title: "Cookies",
-        text: "Necessary cookies remember the language you chose and your cookie choice; the site does not work properly without them. With your consent we also use Google Analytics cookies (_ga, _ga_*) to see, in aggregate, which pages are visited and on which devices, so we can improve the site. Analytics cookies are set only if you accept them, and you can change your choice at any time under “Cookie settings” at the bottom of every page. We do not use advertising cookies.",
+        text: "Necessary cookies remember your cookie choice; the site does not work properly without them. With your consent we also use Google Analytics cookies (_ga, _ga_*) to see, in aggregate, which pages are visited and on which devices, so we can improve the site. Analytics cookies are set only if you accept them, and you can change your choice at any time under “Cookie settings” at the bottom of every page. We do not use advertising cookies.",
       },
       {
         title: "How we use it",
@@ -476,7 +622,7 @@ export const en = {
     necessary: {
       title: "Necessary",
       status: "Always on",
-      text: "Remember the language you chose and your cookie choice. The site does not work properly without them.",
+      text: "Remember your cookie choice. The site does not work properly without them.",
     },
     analytics: {
       title: "Analytics",
@@ -489,7 +635,6 @@ export const en = {
     menuLabel: "Menu",
     followLabel: "Follow",
     contactLabel: "Contact",
-    location: "Dubai · Limassol · Worldwide",
     marquee: "Let's talk",
     rights: "All rights reserved.",
     privacy: "Privacy policy",

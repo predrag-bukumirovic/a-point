@@ -1,11 +1,10 @@
-import { getDictionary } from "@/content";
-import { CONTACT, whatsappHref, type Locale } from "@/content/site";
+import { dictionary } from "@/content";
+import { CONTACT, whatsappHref } from "@/content/site";
 import styles from "./WhatsAppButton.module.scss";
 
-/** Plutajuće WhatsApp dugme (u Dubaiju glavni kanal za upite). Prikazuje se kad je broj upisan. */
-export default function WhatsAppButton({ locale }: { locale: Locale }) {
+export default function WhatsAppButton() {
   if (!CONTACT.whatsapp) return null;
-  const { ui } = getDictionary(locale);
+  const { ui } = dictionary;
 
   return (
     <a

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import ProjectPage from "@/components/pages/ProjectPage";
 import { PROJECT_SLUGS, getNextProject, getProject } from "@/content/projects";
 import { pageMetadata } from "@/content/seo";
-import { isLocale } from "@/content/site";
 
 export const dynamicParams = false;
 
@@ -11,23 +10,23 @@ export function generateStaticParams() {
   return PROJECT_SLUGS.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/projects/[slug]">): Promise<Metadata> {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) return {};
-  const project = getProject(locale, slug);
+export async function generateMetadata({
+  params,
+}: PageProps<"/projects/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) return {};
   const { src, alt } = project.hero;
-  return pageMetadata(locale, `/projects/${slug}`, {
-    title: project.title,
+  return pageMetadata(`/projects/${slug}`, {
+    title: `${project.title} — ${project.category} in ${project.location}`,
     description: project.summary,
     image: { url: src.src, width: src.width, height: src.height, alt },
   });
 }
 
-export default async function Page({ params }: PageProps<"/[locale]/projects/[slug]">) {
-  const { locale, slug } = await params;
-  if (!isLocale(locale)) notFound();
-  const project = getProject(locale, slug);
+export default async function Page({ params }: PageProps<"/projects/[slug]">) {
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) notFound();
-  return <ProjectPage locale={locale} project={project} next={getNextProject(locale, slug)} />;
+  return <ProjectPage project={project} next={getNextProject(slug)} />;
 }

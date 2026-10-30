@@ -1,21 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getDictionary } from "@/content";
+import { dictionary } from "@/content";
 import { getProjects } from "@/content/projects";
-import { localePath, type Locale } from "@/content/site";
 import CtaBand from "../CtaBand";
 import ProjectGallery from "../ProjectGallery";
 import SiteFrame from "../SiteFrame";
 import { Arrow, Heading, delay } from "../ui";
 import styles from "./ProjectsPage.module.scss";
 
-export default function ProjectsPage({ locale }: { locale: Locale }) {
-  const { projectsPage: p, ui } = getDictionary(locale);
+export default function ProjectsPage() {
+  const { projectsPage: p, ui } = dictionary;
   const { archive } = p;
-  const projects = getProjects(locale);
+  const projects = getProjects();
 
   return (
-    <SiteFrame locale={locale} header="solid">
+    <SiteFrame header="solid">
       <section className={styles.head}>
         <div data-reveal>
           <p className="label r-fade">{p.label}</p>
@@ -31,7 +30,7 @@ export default function ProjectsPage({ locale }: { locale: Locale }) {
       <ul className={styles.grid}>
         {projects.map((project, i) => (
           <li key={project.slug} className={styles.item} data-reveal>
-            <Link href={localePath(locale, `/projects/${project.slug}`)} className={styles.card}>
+            <Link href={`/projects/${project.slug}`} className={styles.card}>
               <div className={`${styles.image} r-img`}>
                 <Image
                   src={project.cover.src}
@@ -74,11 +73,16 @@ export default function ProjectsPage({ locale }: { locale: Locale }) {
         <ProjectGallery
           photos={archive.images}
           layout="grid"
-          labels={{ open: ui.openImage, close: ui.close, prev: ui.prevImage, next: ui.nextImage }}
+          labels={{
+            open: ui.openImage,
+            close: ui.close,
+            prev: ui.prevImage,
+            next: ui.nextImage,
+          }}
         />
       </section>
 
-      <CtaBand locale={locale} />
+      <CtaBand />
     </SiteFrame>
   );
 }

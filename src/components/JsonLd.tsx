@@ -1,9 +1,15 @@
-import { getDictionary } from "@/content";
-import { BRAND, CONTACT, FOUNDED, LEGAL_NAME, POSTAL, SITE_URL, localePath, type Locale } from "@/content/site";
+import { dictionary } from "@/content";
+import {
+  BRAND,
+  CONTACT,
+  FOUNDED,
+  LEGAL_NAME,
+  POSTAL,
+  SITE_URL,
+} from "@/content/site";
 
-/** Strukturirani podaci o studiju za Google (lokalni SEO: Dubai i Limasol). */
-export default function JsonLd({ locale }: { locale: Locale }) {
-  const { meta } = getDictionary(locale);
+export default function JsonLd() {
+  const { meta } = dictionary;
   const data = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -12,17 +18,37 @@ export default function JsonLd({ locale }: { locale: Locale }) {
     legalName: LEGAL_NAME,
     foundingDate: FOUNDED,
     founder: [
-      { "@type": "Person", name: "Michael Pokroy", jobTitle: "Managing Director" },
-      { "@type": "Person", name: "Dimitrije Dukic", jobTitle: "Design Director" },
+      {
+        "@type": "Person",
+        name: "Michael Pokroy",
+        jobTitle: "Managing Director",
+      },
+      {
+        "@type": "Person",
+        name: "Dimitrije Dukic",
+        jobTitle: "Design Director",
+      },
     ],
     description: meta.description,
-    url: SITE_URL + localePath(locale),
+    url: SITE_URL + "/",
     logo: `${SITE_URL}/media/logo.svg`,
     image: `${SITE_URL}/media/og.jpg`,
-    inLanguage: locale,
+    inLanguage: "en",
     sameAs: [CONTACT.instagram],
-    areaServed: ["Dubai", "Abu Dhabi", "United Arab Emirates", "Middle East", "Cyprus"],
-    knowsAbout: ["Architecture", "Interior design", "Villa design", "3D visualisation", "Residential developments"],
+    areaServed: [
+      "Dubai",
+      "Abu Dhabi",
+      "United Arab Emirates",
+      "Middle East",
+      "Cyprus",
+    ],
+    knowsAbout: [
+      "Architecture",
+      "Interior design",
+      "Villa design",
+      "3D visualisation",
+      "Residential developments",
+    ],
     address: [
       {
         "@type": "PostalAddress",
@@ -30,8 +56,16 @@ export default function JsonLd({ locale }: { locale: Locale }) {
         addressLocality: POSTAL.city,
         addressCountry: POSTAL.country,
       },
-      { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" },
-      { "@type": "PostalAddress", addressLocality: "Limassol", addressCountry: "CY" },
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Dubai",
+        addressCountry: "AE",
+      },
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Limassol",
+        addressCountry: "CY",
+      },
     ],
     ...(CONTACT.email && { email: CONTACT.email }),
     ...(CONTACT.phone && { telephone: CONTACT.phone }),
@@ -40,7 +74,9 @@ export default function JsonLd({ locale }: { locale: Locale }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }

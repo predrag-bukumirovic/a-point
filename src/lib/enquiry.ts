@@ -1,13 +1,16 @@
 "use server";
 
+import { dictionary } from "@/content";
 import { CONTACT } from "@/content/site";
+import { readEnquiry, validateEnquiry, type EnquiryValues, type FieldErrors } from "./enquiry-rules";
 
 export type EnquiryState = {
   status: "idle" | "success" | "error";
   error?: "invalid" | "unavailable" | "failed";
+  fieldErrors?: FieldErrors;
+  // Poslate vrednosti, da forma posle greške ne ostane prazna.
+  values?: EnquiryValues;
 };
-
-const FIELDS = ["name", "email", "phone", "type", "location", "message", "locale"] as const;
 
 /*
  * Slanje upita sa kontakt forme na email studija (preko Resend API-ja).
@@ -21,12 +24,13 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
   // Polje koje ljudi ne vide — popunjavaju ga samo botovi.
   if (String(formData.get("company") ?? "")) return { status: "success" };
 
-  const data = Object.fromEntries(
-    FIELDS.map((key) => [key, String(formData.get(key) ?? "").trim().slice(0, key === "message" ? 5000 : 200)]),
-  ) as Record<(typeof FIELDS)[number], string>;
+  const data = readEnquiry(formData);
+  // Vrsta projekta mora biti jedna od ponuđenih.
+  if (!dictionary.contact.form.types.includes(data.type)) data.type = "";
 
-  if (!data.name || !data.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    return { status: "error", error: "invalid" };
+  const fieldErrors = validateEnquiry(data);
+  if (Object.keys(fieldErrors).length) {
+    return { status: "error", error: "invalid", fieldErrors, values: data };
   }
 
   const key = process.env.RESEND_API_KEY;
@@ -38,7 +42,7 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
       return { status: "success" };
     }
     console.error("[enquiry] RESEND_API_KEY / CONTACT_TO_EMAIL nisu podešeni");
-    return { status: "error", error: "unavailable" };
+    return { status: "error", error: "unavailable", values: data };
   }
 
   const text = [
@@ -47,7 +51,6 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
     `Phone: ${data.phone || "—"}`,
     `Project type: ${data.type || "—"}`,
     `Location: ${data.location || "—"}`,
-    `Language: ${data.locale || "—"}`,
     "",
     data.message,
   ].join("\n");
@@ -66,11 +69,11 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
     });
     if (!res.ok) {
       console.error("[enquiry] Resend:", res.status, await res.text());
-      return { status: "error", error: "failed" };
+      return { status: "error", error: "failed", values: data };
     }
     return { status: "success" };
   } catch (err) {
     console.error("[enquiry]", err);
-    return { status: "error", error: "failed" };
+    return { status: "error", error: "failed", values: data };
   }
 }

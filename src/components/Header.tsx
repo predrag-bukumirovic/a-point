@@ -1,65 +1,147 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from "react";
 import { createPortal } from "react-dom";
 import type { Dictionary } from "@/content";
-import { CONTACT, localePath, telHref, type Locale } from "@/content/site";
+import * as media from "@/content/media";
+import { CONTACT, telHref } from "@/content/site";
 import Logo from "./Logo";
 import { getLenis } from "./SmoothScroll";
 import styles from "./Header.module.scss";
 
+export type MenuItem = {
+  href: string;
+  title: string;
+  image: StaticImageData;
+};
+type Tab = "pages" | "projects" | "services";
+
 const noop = () => () => {};
 
-// Izbor jezika se pamti za sledeći ulazak na „/“ (čita ga proxy.ts).
-const rememberLocale = (locale: Locale) => {
-  document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
-};
+function PlusIcon({ className }: { className: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+  );
+}
 const subscribeScroll = (onChange: () => void) => {
   window.addEventListener("scroll", onChange, { passive: true });
   return () => window.removeEventListener("scroll", onChange);
 };
 
-/**
- * `overlay`: providan preko tamne naslovne slike, posle malo skrola dobija belu podlogu.
- * `solid`: bela podloga od početka (strane bez slike na vrhu).
- */
+const pageImages: Record<string, StaticImageData> = {
+  "/": media.heroWide,
+  "/about": media.studioHero,
+  "/projects": media.archive04,
+  "/services": media.servicesHero,
+  "/contact": media.contactImage,
+};
+
 export default function Header({
-  locale,
   nav,
-  place,
+  labels,
+  projects,
+  services,
   variant = "overlay",
 }: {
-  locale: Locale;
   nav: Dictionary["nav"];
-  /** Gradovi studija („Dubai · Limassol · Worldwide“), u dnu mobilnog menija. */
-  place: string;
+  labels: {
+    allProjects: string;
+    allServices: string;
+    instagram: string;
+    email: string;
+    call: string;
+  };
+  projects: MenuItem[];
+  services: MenuItem[];
   variant?: "overlay" | "solid";
 }) {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("pages");
+
+  const [hovered, setHovered] = useState<string | null>(null);
   const pathname = usePathname();
-  // Meni se renderuje u <body>: heroj je zakačen (sticky), pa bi ga inače
-  // sledeće sekcije prekrile. Portal postoji tek posle hidratacije.
-  const mounted = useSyncExternalStore(noop, () => true, () => false);
-  const scrolled = useSyncExternalStore(subscribeScroll, () => window.scrollY > 24, () => false);
+  const id = useId();
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+  const mounted = useSyncExternalStore(
+    noop,
+    () => true,
+    () => false,
+  );
+  const scrolled = useSyncExternalStore(
+    subscribeScroll,
+    () => window.scrollY > 60,
+    () => false,
+  );
   const solid = variant === "solid" || scrolled;
-  // Linkovi zatvorenog menija se preskaču pri navigaciji tastaturom.
-  const tab = open ? 0 : -1;
 
-  // Ista strana na drugom jeziku.
-  const other: Locale = locale === "en" ? "ar" : "en";
-  const switchHref = pathname.replace(/^\/(en|ar)(?=\/|$)/, `/${other}`);
+  const images: [string, StaticImageData][] = [
+    ...Object.entries(pageImages),
+    ...[...projects, ...services].map((p): [string, StaticImageData] => [
+      p.href,
+      p.image,
+    ]),
+  ];
+  const tabs: {
+    key: Tab;
+    label: string;
+    items: { href: string; label: string }[];
+    all?: { href: string; label: string };
+  }[] = [
+    {
+      key: "pages",
+      label: nav.tabs.pages,
+      items: [...nav.links, nav.contact],
+    },
+    {
+      key: "projects",
+      label: nav.tabs.projects,
+      items: projects.map((p) => ({ href: p.href, label: p.title })),
+      all: { href: "/projects", label: labels.allProjects },
+    },
+    {
+      key: "services",
+      label: nav.tabs.services,
+      items: services.map((s) => ({ href: s.href, label: s.title })),
+      all: { href: "/services", label: labels.allServices },
+    },
+  ];
 
-  // „Home“ je aktivan samo na početnoj; ostali linkovi i na svojim podstranama (npr. projekat).
   const isActive = (href: string) =>
-    href === "/" ? pathname === localePath(locale) : pathname.startsWith(localePath(locale, href));
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("menu-open", open);
-    if (open) getLenis()?.stop();
-    else getLenis()?.start();
+
+    if (open) {
+      getLenis()?.stop();
+      closeButton.current?.focus({ preventScroll: true });
+    } else {
+      getLenis()?.start();
+      if (wasOpen.current) toggle.current?.focus({ preventScroll: true });
+    }
+    wasOpen.current = open;
     return () => root.classList.remove("menu-open");
   }, [open]);
 
@@ -72,23 +154,27 @@ export default function Header({
   const close = () => {
     getLenis()?.start();
     setOpen(false);
+    setHovered(null);
   };
 
-  const switchLink = (className: string, tabIndex?: number) => (
-    <Link
-      href={switchHref}
-      hrefLang={other}
-      lang={other}
-      title={nav.switchTitle}
-      className={className}
-      onClick={() => {
-        rememberLocale(other);
-        close();
-      }}
-      tabIndex={tabIndex}
-    >
-      {nav.switchLabel}
-    </Link>
+  const choose = (next: Tab) => {
+    setTab(next);
+    setHovered(null);
+  };
+
+  const item = (href: string, label: string, i: number) => (
+    <li key={href} style={{ "--i": i } as CSSProperties}>
+      <Link
+        href={href}
+        className={styles.link}
+        aria-current={isActive(href) ? "page" : undefined}
+        onClick={close}
+        onMouseEnter={() => setHovered(href)}
+        onFocus={() => setHovered(href)}
+      >
+        {label}
+      </Link>
+    </li>
   );
 
   return (
@@ -97,100 +183,131 @@ export default function Header({
         {nav.skip}
       </a>
       <div className={styles.bar}>
-        <Link href={localePath(locale)} className={styles.logo} aria-label={nav.home}>
+        <Link href="/" className={styles.logo} aria-label={nav.home}>
           <Logo className={styles.brand} />
         </Link>
-        <nav className={styles.nav} aria-label={nav.main}>
-          {nav.links.map((link, i) => (
-            <Link
-              key={link.href}
-              href={localePath(locale, link.href)}
-              aria-current={isActive(link.href) ? "page" : undefined}
-              style={{ animationDelay: `${0.9 + i * 0.08}s` }}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className={styles.actions}>
-          {switchLink(styles.lang)}
-          <Link
-            href={localePath(locale, nav.contact.href)}
-            className={styles.contact}
-            aria-current={isActive(nav.contact.href) ? "page" : undefined}
-          >
-            {nav.contact.label}
-          </Link>
-        </div>
         <button
+          ref={toggle}
           type="button"
           className={styles.toggle}
           aria-label={nav.menu}
           aria-expanded={open}
-          aria-controls="mobile-menu"
+          aria-controls="site-menu"
           onClick={() => setOpen(true)}
         >
-          <span className={styles.burger} aria-hidden="true">
-            <span />
-            <span />
-          </span>
+          <PlusIcon className={styles.plus} />
+          <span className={styles.frame} aria-hidden="true" />
         </button>
       </div>
 
       {mounted &&
         createPortal(
-          // data-lenis-prevent: na niskom ekranu meni se skroluje iako je Lenis zaustavljen.
-          <div
-            id="mobile-menu"
-            className={`${styles.overlay} ${open ? styles.open : ""}`}
-            aria-hidden={!open}
-            data-lenis-prevent
-          >
-            <div className={styles.overlayBar}>
-              <Logo className={styles.brand} />
-              <button type="button" className={styles.toggle} aria-label={nav.close} onClick={close} tabIndex={tab}>
-                <span className={`${styles.burger} ${styles.cross}`} aria-hidden="true">
-                  <span />
-                  <span />
-                </span>
-              </button>
-            </div>
-            <nav className={styles.overlayNav} aria-label={nav.mobile}>
-              {[...nav.links, nav.contact].map((link, i) => (
-                <Link
-                  key={link.href}
-                  href={localePath(locale, link.href)}
-                  aria-current={isActive(link.href) ? "page" : undefined}
+          <>
+            <div
+              className={`${styles.scrim} ${open ? styles.open : ""}`}
+              onClick={close}
+              aria-hidden="true"
+            />
+
+            <div
+              id="site-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label={nav.main}
+              inert={!open}
+              className={`${styles.panel} ${open ? styles.open : ""}`}
+              data-lenis-prevent
+            >
+              <div className={styles.panelTop}>
+                <div className={styles.tabs} role="tablist">
+                  {tabs.map(({ key, label }) => (
+                    <button
+                      key={key}
+                      type="button"
+                      role="tab"
+                      id={`${id}-${key}-tab`}
+                      aria-selected={tab === key}
+                      aria-controls={`${id}-${key}`}
+                      className={styles.tab}
+                      onClick={() => choose(key)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  ref={closeButton}
+                  type="button"
+                  className={styles.close}
+                  aria-label={nav.close}
                   onClick={close}
-                  tabIndex={tab}
-                  style={{ "--i": i } as CSSProperties}
                 >
-                  <span className={styles.name}>
-                    <span>{link.label}</span>
-                  </span>
-                </Link>
-              ))}
-            </nav>
-            <div className={styles.overlayFoot}>
-              <div className={styles.reach}>
-                {CONTACT.email && (
-                  <a href={`mailto:${CONTACT.email}`} dir="ltr" tabIndex={tab}>
-                    {CONTACT.email}
-                  </a>
-                )}
-                {CONTACT.phone && (
-                  <a href={telHref(CONTACT.phone)} dir="ltr" tabIndex={tab}>
-                    {CONTACT.phone}
-                  </a>
-                )}
-                <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" dir="ltr" tabIndex={tab}>
-                  {CONTACT.instagramHandle}
-                </a>
+                  <PlusIcon className={`${styles.plus} ${styles.cross}`} />
+                </button>
               </div>
-              <p className={styles.place}>{place}</p>
-              {switchLink(styles.overlayLang, tab)}
+
+              <nav className={styles.panes} aria-label={nav.main}>
+                {tabs.map(({ key, items, all }) => (
+                  <div
+                    key={key}
+                    id={`${id}-${key}`}
+                    role="tabpanel"
+                    aria-labelledby={`${id}-${key}-tab`}
+                    className={`${styles.pane} ${tab === key ? styles.active : ""}`}
+                    inert={tab !== key}
+                  >
+                    <ul>
+                      {items.map((link, i) => item(link.href, link.label, i))}
+                      {all && (
+                        <li style={{ "--i": items.length } as CSSProperties}>
+                          <Link
+                            href={all.href}
+                            className={styles.all}
+                            aria-current={
+                              pathname === all.href ? "page" : undefined
+                            }
+                            onClick={close}
+                          >
+                            {all.label}
+                          </Link>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                ))}
+              </nav>
+
+              <div className={styles.panelFoot}>
+                <div className={styles.thumb} aria-hidden="true">
+                  {images.map(([href, src]) => (
+                    <Image
+                      key={href}
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 520px) 90vw, 380px"
+                      className={href === hovered ? styles.shown : undefined}
+                    />
+                  ))}
+                </div>
+                <div className={styles.reach}>
+                  <a
+                    href={CONTACT.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {labels.instagram}
+                  </a>
+                  {CONTACT.email && (
+                    <a href={`mailto:${CONTACT.email}`}>{labels.email}</a>
+                  )}
+                  {CONTACT.phone && (
+                    <a href={telHref(CONTACT.phone)}>{labels.call}</a>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>,
+          </>,
           document.body,
         )}
     </header>

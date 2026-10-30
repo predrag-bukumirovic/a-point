@@ -1,22 +1,28 @@
-import { getDictionary } from "@/content";
-import { CONTACT, localePath, whatsappHref, type Locale } from "@/content/site";
+import Image from "next/image";
+import { dictionary } from "@/content";
+import { heroWide } from "@/content/media";
+import { CONTACT, whatsappHref } from "@/content/site";
 import { Heading, TextLink, delay } from "./ui";
 import styles from "./CtaBand.module.scss";
 
-/** Tamna traka sa pozivom na kontakt (dno unutrašnjih strana). */
-export default function CtaBand({ locale }: { locale: Locale }) {
-  const { cta, ui } = getDictionary(locale);
+export default function CtaBand() {
+  const { cta, ui } = dictionary;
 
   return (
-    <section className={styles.band} data-reveal>
-      <Heading lines={cta.lines} />
-      <div className={styles.side}>
+    <section className={styles.band}>
+      <div className={styles.bg}>
+        <Image src={heroWide} alt="" fill sizes="100vw" placeholder="blur" />
+      </div>
+      <div className={styles.shade} />
+
+      <div className={styles.inner} data-reveal>
+        <Heading lines={cta.lines} />
         <p className="r-fade" style={delay(0.3)}>
           {cta.text}
         </p>
         <div className={styles.links}>
           <TextLink
-            href={localePath(locale, cta.button.href)}
+            href={cta.button.href}
             label={cta.button.label}
             className="r-fade"
             style={delay(0.4)}

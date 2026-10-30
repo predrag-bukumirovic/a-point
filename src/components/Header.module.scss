@@ -10,19 +10,20 @@
     box-shadow 0.5s var(--ease);
 }
 
+// Posle skrola: bela, blago providna traka (sadržaj se nazire ispod).
 .solid {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: saturate(1.2) blur(12px);
-  -webkit-backdrop-filter: saturate(1.2) blur(12px);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
   color: var(--ink);
-  box-shadow: 0 1px 0 rgba(31, 30, 27, 0.08);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 
   .bar {
-    padding: 10px 0;
+    height: var(--header-h);
   }
 
-  .bar::after {
-    opacity: 0;
+  .brand {
+    height: 30px;
   }
 }
 
@@ -34,7 +35,7 @@
   z-index: 2;
   padding: 10px 16px;
   background: var(--ink);
-  color: var(--cream);
+  color: #fff;
   font-size: 13px;
   transform: translateY(-160%);
   transition: transform 0.3s var(--ease);
@@ -45,439 +46,334 @@
 }
 
 .bar {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  padding: 14px 0;
-  transition: padding 0.5s var(--ease);
-
-  // Tanka linija ispod menija
-  &::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.45);
-    transform-origin: left;
-    transition: opacity 0.4s var(--ease);
-    animation: grow 1.4s var(--ease) 0.7s both;
-  }
-}
-
-.logo {
-  justify-self: start;
-  animation: fadeDown 1s var(--ease) 0.8s both;
-}
-
-// Pun logo (sa podnaslovom), kao u futeru. Dve klase da nadjačaju osnovnu visinu iz Logo.module.scss.
-.header .brand,
-.overlay .brand {
-  height: 44px;
-}
-
-.nav {
-  display: flex;
-  gap: clamp(20px, 2.6vw, 48px);
-
-  a {
-    animation: fadeDown 1s var(--ease) both;
-  }
-}
-
-.actions {
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 2.2vw, 40px);
-  animation: fadeDown 1s var(--ease) 1.25s both;
-}
-
-.nav a,
-.contact,
-.lang {
-  position: relative;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 -4px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.5s var(--ease);
-  }
-
-  &:hover::after,
-  &[aria-current="page"]::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-}
-
-// Naziv drugog jezika: sistemski font, da engleska strana ne učitava arapski font samo zbog ovog linka.
-.lang {
-  font-family: system-ui, sans-serif;
-  letter-spacing: 0;
-  opacity: 0.85;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-/* ---------- Burger (telefon i tablet) ---------- */
-
-// Dugme je 44 × 44 (dovoljno za prst); linije se poravnavaju sa ivicom sadržaja.
-.toggle {
-  display: none;
-  place-items: center;
-  justify-self: end;
-  width: 44px;
-  height: 44px;
-  margin-inline-end: -8px;
-}
-
-// Dve tanke linije, donja kraća; na prelaz mišem se izjednače.
-.burger {
-  position: relative;
-  display: block;
-  width: 28px;
-  height: 9px;
-
-  span {
-    position: absolute;
-    inset-inline-end: 0;
-    height: 1px;
-    background: currentColor;
-    transition:
-      width 0.6s var(--ease),
-      transform 0.7s var(--ease);
-  }
-
-  span:first-child {
-    top: 0;
-    width: 100%;
-  }
-
-  span:last-child {
-    bottom: 0;
-    width: 58%;
-  }
-}
-
-.toggle:hover .burger span:last-child,
-.toggle:focus-visible .burger span:last-child {
-  width: 100%;
-}
-
-// U otvorenom meniju iste linije se zarotiraju u „X“.
-.cross span:first-child,
-.cross span:last-child {
-  top: 50%;
-  bottom: auto;
-  width: 100%;
-}
-
-.open .cross span:first-child {
-  transform: rotate(45deg);
-  transition-delay: 0.25s;
-}
-
-.open .cross span:last-child {
-  transform: rotate(-45deg);
-  transition-delay: 0.25s;
-}
-
-/* ---------- Mobilni meni ---------- */
-
-// Zavesa se spušta odozgo, a za njom red po red izlaze linije, nazivi i brojevi.
-.overlay {
-  --curtain: cubic-bezier(0.76, 0, 0.24, 1);
-  --hairline: rgba(241, 238, 233, 0.16);
-
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  padding: 0 var(--gutter) 28px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  // Blag topli odsjaj u gornjem uglu daje dubinu ravnoj podlozi.
-  background:
-    radial-gradient(110% 55% at 100% 0%, rgba(213, 206, 195, 0.08), transparent 70%),
-    var(--dark);
-  color: var(--cream);
-  clip-path: inset(0 0 100% 0);
-  visibility: hidden;
-  transition:
-    clip-path 0.7s var(--curtain),
-    visibility 0s linear 0.7s;
-
-  &.open {
-    clip-path: inset(0);
-    visibility: visible;
-    transition: clip-path 0.9s var(--curtain);
-  }
-}
-
-.overlayBar {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
+  height: 92px;
+  transition: height 0.5s var(--ease);
+}
+
+.logo {
+  animation: fadeDown 1s var(--ease) 0.5s both;
+}
+
+// Dve klase da nadjačaju osnovnu visinu iz Logo.module.scss.
+.header .brand {
+  height: 38px;
+  transition: height 0.5s var(--ease);
+}
+
+/* ---------- Dugme „+“ ---------- */
+
+.toggle,
+.close {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-inline-end: -11px;
+}
+
+.toggle {
+  animation: fadeDown 1s var(--ease) 0.7s both;
+}
+
+// Plus (SVG); u panelu se okrene u „×“.
+.plus {
+  display: block;
+  width: 32px;
+  height: 32px;
+  transition: transform 0.6s var(--ease);
+}
+
+.cross {
+  transform: rotate(45deg);
+}
+
+// Tanak okvir oko plusa pri prelazu mišem.
+.frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+// Samo uz miš: na ekranu na dodir bi okvir ostao posle dodira.
+@media (hover: hover) {
+  .toggle:hover {
+    .plus {
+      transform: rotate(90deg);
+    }
+
+    .frame {
+      opacity: 0.35;
+      transform: none;
+    }
+  }
+
+  .close:hover .cross {
+    transform: rotate(135deg);
+  }
+}
+
+/* ---------- Bočni panel (po uzoru na referencu) ---------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+    transition-duration: 0.71s;
+  }
+}
+
+.panel {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 61;
+  display: flex;
+  flex-direction: column;
+  width: min(475px, 100%);
+  padding: 16px 48px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  color: var(--ink);
+  transform: translateX(100%);
+  transition: transform 0.2s ease-in;
+
+  &.open {
+    transform: none;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.71s cubic-bezier(0.72, 0.84, 0, 1);
+  }
+}
+
+.panelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+// Kartice: siva slova, izabrana tamna sa kratkom crtom ispod.
+.tabs {
+  display: flex;
+  gap: 24px;
+}
+
+.tab {
+  position: relative;
+  padding: 12px 0;
+  font-size: 14px;
+  text-transform: uppercase;
 
   &::after {
     content: "";
     position: absolute;
-    inset: auto 0 0;
+    left: 50%;
+    bottom: 0;
+    width: 24px;
     height: 1px;
-    background: var(--hairline);
+    margin-left: -12px;
+    background: var(--ink);
+    opacity: 0;
     transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s var(--ease);
+    transition:
+      opacity 0.3s,
+      transform 0.3s cubic-bezier(0.96, 0.06, 0.53, 2.23);
   }
 
-  .open &::after {
-    transform: none;
-    transition: transform 1.4s var(--ease) 0.2s;
-  }
-
-  .toggle {
-    display: grid;
-  }
-}
-
-// Svaki red ima tanku liniju ispod. Lista stoji na sredini slobodnog prostora.
-// Veličina slova prati i visinu ekrana, da svih pet stavki stane i na niskom telefonu.
-.overlayNav {
-  --fs: clamp(26px, min(8vw, 4.8svh), 44px);
-  --py: clamp(12px, 2.6svh, 26px);
-
-  margin: auto 0;
-  padding: clamp(24px, 4svh, 48px) 0;
-
-  a {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    padding: var(--py) 0;
-
-    // Linija ispod reda i, preko nje, svetla linija ispod naziva (aktivna strana, prelaz mišem).
-    // Svetla linija je u prvoj koloni mreže, pa je široka tačno koliko i naziv.
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 1px;
-      transform: scaleX(0);
-      transform-origin: left;
-    }
-
-    &::before {
-      background: var(--hairline);
-      transition: transform 0.5s var(--ease);
-    }
-
-    &::after {
-      grid-column: 1 / 2;
-      background: var(--cream);
-      transition: transform 0.7s var(--ease);
-    }
-  }
-
-  .open & a::before {
-    transform: none;
-    transition: transform 1.4s var(--ease) calc(0.25s + var(--i) * 0.07s);
-  }
-
-  .open & a[aria-current="page"]::after {
-    transform: none;
-    transition: transform 1.2s var(--ease) calc(0.7s + var(--i) * 0.07s);
-  }
-
-  @media (hover: hover) {
-    .open & a:hover::after {
-      transform: none;
-      transition: transform 0.7s var(--ease);
-    }
-  }
-}
-
-// Naziv izlazi iz maske; maska je veća od reda da ne odseče serife i rep slova J.
-.name {
-  --from: 135%;
-
-  font-family: var(--serif);
-  font-weight: 300;
-  font-variation-settings: "wdth" 80;
-  font-size: var(--fs);
-  line-height: 1;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  clip-path: inset(-0.3em);
-
-  span {
-    display: block;
-    transform: translateY(var(--from));
-    transition: transform 0.5s var(--ease);
-  }
-
-  .open & span {
-    transform: none;
-    transition: transform 1.2s var(--ease) calc(0.32s + var(--i) * 0.07s);
-  }
-}
-
-// Kontakt u dnu: imejl, telefon i Instagram, ispod njih gradovi i jezik.
-.overlayFoot {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 28px 24px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.3s var(--ease),
-    transform 0.5s var(--ease);
-
-  .open & {
+  &:hover::after,
+  &[aria-selected="true"]::after {
     opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+// Obe kartice u istoj ćeliji; izabrana izlazi blago odozdo.
+.panes {
+  display: grid;
+  margin-top: 32px;
+}
+
+.pane {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.9);
+  transform-origin: top;
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    visibility 0s 0.3s;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
     transform: none;
     transition:
-      opacity 1s var(--ease) 0.75s,
-      transform 1.2s var(--ease) 0.75s;
+      opacity 0.5s,
+      transform 0.5s;
   }
 
-  a {
-    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-    transition: background-size 0.5s var(--ease);
+  li {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition:
+      opacity 0.15s ease-in,
+      transform 0.15s ease-in;
+  }
+}
 
-    &:hover {
-      background-size: 100% 1px;
-    }
+.open .active li {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+  transition-delay: calc(0.05s + var(--i) * 0.045s);
+}
+
+.link {
+  display: block;
+  padding: 2px 0;
+  font-size: 25px;
+  line-height: 1.375;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.all {
+  display: block;
+  margin-top: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.link,
+.all,
+.reach a {
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.3s;
+
+  &:hover,
+  &[aria-current="page"] {
+    text-decoration-color: currentColor;
+  }
+}
+
+.panelFoot {
+  margin-top: auto;
+}
+
+// Slika linka pod mišem; dok miš nije prešao preko spiska, mesto je prazno.
+.thumb {
+  position: relative;
+  margin: 16px 0 48px;
+  aspect-ratio: 567 / 319;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .shown {
+    opacity: 1;
   }
 }
 
 .reach {
-  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  font-size: 15px;
-}
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
 
-.place {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(241, 238, 233, 0.5);
-}
-
-.overlayLang {
-  font-family: system-ui, sans-serif;
-  font-size: 15px;
-}
-
-// Bez animacija: meni se samo pojavi.
-@media (prefers-reduced-motion: reduce) {
-  .overlay {
-    clip-path: none;
-    opacity: 0;
-    transition:
-      opacity 0.3s,
-      visibility 0s linear 0.3s;
-
-    &.open {
-      clip-path: none;
-      opacity: 1;
-      transition: opacity 0.3s;
-    }
-  }
-
-  .overlayBar::after,
-  .overlayNav a::before,
-  .name span,
-  .overlayFoot {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  a {
+    font-size: 20px;
+    text-transform: uppercase;
   }
 }
 
-:global([dir="rtl"]) {
-  .bar::after {
-    transform-origin: right;
-  }
-
-  .nav a,
-  .contact,
-  .lang {
-    letter-spacing: 0;
-
-    &::after {
-      transform-origin: left;
-    }
-
-    &:hover::after,
-    &[aria-current="page"]::after {
-      transform-origin: right;
-    }
-  }
-
-  .nav a,
-  .contact {
-    font-size: 14px;
-  }
-
-  .overlayBar::after,
-  .overlayNav a::before,
-  .overlayNav a::after {
-    transform-origin: right;
-  }
-
-  // Arapsko pismo: Naskh nema tanji rez, nema razmaka između slova, treba više prostora po visini.
-  .name {
-    --from: 160%;
-
-    font-weight: 400;
-    line-height: 1.35;
-    letter-spacing: 0;
-    clip-path: inset(-0.5em -0.3em);
-  }
-
-  .place {
-    letter-spacing: 0;
+@media (min-height: 940px) {
+  .panes {
+    margin-top: 48px;
   }
 }
 
-@media (max-width: 900px) {
-  .bar {
-    grid-template-columns: 1fr auto;
-  }
-
-  .header .brand,
-  .overlay .brand {
-    height: 36px;
-  }
-
-  .nav,
-  .actions {
+// Nizak ekran: bez slike, da linkovi i kontakt stanu.
+@media (max-height: 829px) {
+  .thumb {
     display: none;
   }
+}
 
-  .toggle {
-    display: grid;
-    animation: fadeDown 1s var(--ease) 0.9s both;
+@media (max-width: 760px) {
+  .bar {
+    height: 72px;
+  }
+
+  .plus {
+    width: 26px;
+    height: 26px;
+  }
+
+  .header .brand {
+    height: 30px;
+  }
+
+  .solid {
+    .bar {
+      height: 60px;
+    }
+
+    .brand {
+      height: 26px;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .panel {
+    padding-inline: 32px;
+  }
+
+  .link {
+    font-size: 22px;
+  }
+
+  .reach a {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel.open,
+  .pane,
+  .pane.active,
+  .pane li,
+  .open .active li {
+    transition: none;
   }
 }
 
@@ -485,11 +381,5 @@
   from {
     opacity: 0;
     transform: translateY(-12px);
-  }
-}
-
-@keyframes grow {
-  from {
-    transform: scaleX(0);
   }
 }

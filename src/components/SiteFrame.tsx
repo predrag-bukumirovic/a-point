@@ -1,30 +1,49 @@
 import type { ReactNode } from "react";
-import { getDictionary } from "@/content";
-import type { Locale } from "@/content/site";
+import { dictionary } from "@/content";
+import { getProjects } from "@/content/projects";
 import Footer from "./Footer";
 import Header from "./Header";
 import SmoothScroll from "./SmoothScroll";
 import WhatsAppButton from "./WhatsAppButton";
 
-/** Zajednički okvir svake strane: glatki skrol, meni, sadržaj, futer i WhatsApp dugme. */
 export default function SiteFrame({
-  locale,
   header = "overlay",
   children,
 }: {
-  locale: Locale;
   header?: "overlay" | "solid";
   children: ReactNode;
 }) {
-  const { nav, footer } = getDictionary(locale);
+  const { nav, ui, servicesPage } = dictionary;
+  const projects = getProjects().map((p) => ({
+    href: `/projects/${p.slug}`,
+    title: p.title,
+    image: p.cover.src,
+  }));
+  const services = servicesPage.items.map((s) => ({
+    href: `/services#${s.id}`,
+    title: s.title,
+    image: s.image.src,
+  }));
 
   return (
     <>
       <SmoothScroll />
-      <Header locale={locale} nav={nav} place={footer.location} variant={header} />
+      <Header
+        nav={nav}
+        labels={{
+          allProjects: ui.allProjects,
+          allServices: ui.allServices,
+          instagram: ui.instagram,
+          email: ui.email,
+          call: ui.call,
+        }}
+        projects={projects}
+        services={services}
+        variant={header}
+      />
       <main id="main">{children}</main>
-      <Footer locale={locale} />
-      <WhatsAppButton locale={locale} />
+      <Footer />
+      <WhatsAppButton />
     </>
   );
 }

@@ -9,10 +9,9 @@
   padding: 13px 20px 13px 16px;
   border-radius: 999px;
   background: var(--ink);
-  color: var(--cream);
+  color: #fff;
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--track);
   text-transform: uppercase;
   box-shadow: 0 10px 30px rgba(20, 19, 17, 0.25);
   transition:
@@ -28,11 +27,6 @@
     transform: translateY(-3px);
     background: #000;
   }
-}
-
-:global([dir="rtl"]) .button {
-  padding: 13px 16px 13px 20px;
-  letter-spacing: 0;
 }
 
 @media (max-width: 600px) {

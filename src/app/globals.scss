@@ -1,26 +1,32 @@
 :root {
-  --ink: #1f1e1b;
-  --text: #67635d;
-  --muted: #8a867f;
-  --line: #bab5ad;
+  // Tekst je uvek čisto crn ili beo.
+  --ink: #000000;
+  --text: #000000;
+  --line: #dcdad6;
   --paper: #ffffff;
-  --cream: #f1eee9;
-  --sand: #d5cec3;
-  --dark: #1c1b19;
+  --cream: #f2f1ef; // svetla podloga sekcija
+  --sand: #bdbab4;
+  --dark: #111111;
 
-  --gutter: clamp(16px, 2.1vw, 40px);
-  --header-h: 64px; // fiksirani meni posle skrola
+  --gutter: clamp(16px, 2.2vw, 40px);
+  // Sadržaj je najviše ovoliko širok; preko cele širine idu meni i baneri (fotografije, video i tekst na njima).
+  --max: 1580px;
+  // Bočni razmak sadržaja: najmanje --gutter, a na širem ekranu toliko da sadržaj ostane u sredini.
+  --pad: max(var(--gutter), (100vw - var(--max)) / 2);
+  --header-h: 64px; // meni posle skrola
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --h-section: clamp(38px, 5.2vw, 104px);
+  --h-hero: clamp(34px, 1.4rem + 2.8vw, 76px); // naslov na baneru / strani
+  --h-section: clamp(25px, 1.1364rem + 2.1307vw, 40px); // naslov sekcije
+  // podnaslov (projekat, osoba, korak)
+  --h-sub: clamp(18px, 0.7443rem + 1.2784vw, 25px);
+  // tekst, natpisi i linkovi
+  --fs-body: clamp(13px, 0.7764rem + 0.1541vw, 14px);
+  --fs-lead: clamp(16px, 0.9482rem + 0.221vw, 18px); // uvodni pasus u verzalu
+  --track: 0.6px; // razmak slova u verzalu
+  --space: clamp(80px, 9vw, 160px); // razmak između sekcija
 
-  --serif: var(--font-serif), "Times New Roman", serif;
-  --sans: var(--font-sans), system-ui, sans-serif;
-}
-
-// Arapski: naslovi u Naskh pismu, tekst u IBM Plex Sans Arabic; latinica (A Point, brojevi) ostaje u istim fontovima.
-:root[lang="ar"] {
-  --serif: var(--font-serif-ar), var(--font-serif), serif;
-  --sans: var(--font-sans-ar), var(--font-sans), system-ui, sans-serif;
+  --sans:
+    var(--font-sans), "Franklin Gothic", "Helvetica Neue", Arial, sans-serif;
 }
 
 *,
@@ -43,10 +49,19 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: var(--fs-body);
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
 }
 
 a {
@@ -54,14 +69,16 @@ a {
   text-decoration: none;
 }
 
-img {
+img,
+video {
   display: block;
   max-width: 100%;
 }
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
   color: inherit;
 }
@@ -72,13 +89,14 @@ button {
   cursor: pointer;
 }
 
-ul {
+ul,
+ol {
   list-style: none;
 }
 
 ::selection {
   background: var(--ink);
-  color: var(--cream);
+  color: #fff;
 }
 
 :focus-visible {
@@ -86,112 +104,83 @@ ul {
   outline-offset: 4px;
 }
 
-/* ---------- Tipografija ---------- */
+/* ---------- Tipografija ----------
+   Jedno pismo za sve: tanki verzal za naslove; tekst, natpisi i linkovi
+   iste male veličine (14px), natpisi i linkovi u verzalu. */
 
 .heading {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-variation-settings: "wdth" 80;
+  font-weight: 300;
   font-size: var(--h-section);
-  line-height: 1;
-  letter-spacing: -0.012em;
+  line-height: 1.16;
+  letter-spacing: var(--track);
   text-transform: uppercase;
 }
 
 .label {
-  font-size: 13px;
-  letter-spacing: 0.02em;
+  font-size: var(--fs-body);
+  letter-spacing: var(--track);
   text-transform: uppercase;
-  color: var(--muted);
 }
 
 .body-text {
-  font-size: clamp(15px, 1.02vw, 18px);
-  line-height: 1.5;
+  font-size: var(--fs-body);
+  line-height: 1.4;
   color: var(--text);
 }
 
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+}
+
+// „Read more +“: tanka linija ispod, puna pri prelazu mišem; plus se okrene.
 .text-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  min-width: min(300px, 100%);
-  padding-bottom: 7px;
-  border-bottom: 1px solid currentColor;
-  font-size: clamp(14px, 1vw, 17px);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  gap: 14px;
+  padding: 10px 0;
+  font-size: var(--fs-body);
+  letter-spacing: var(--track);
   text-transform: uppercase;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 2px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+    transform-origin: left;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.7s var(--ease);
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 
   svg {
     flex: none;
-    transition: transform 0.5s var(--ease);
+    transition: transform 0.6s var(--ease);
   }
 
   &:hover svg {
-    transform: translateX(6px);
-  }
-}
-
-/* ---------- Arapski (zdesna nalevo) ---------- */
-
-// Strelice „napred“ pokazuju ulevo.
-[dir="rtl"] .arrow {
-  transform: scaleX(-1);
-}
-
-[dir="rtl"] .text-link:hover svg {
-  transform: scaleX(-1) translateX(6px);
-}
-
-// Arapsko pismo ne trpi razmak između slova i traži više prostora između redova.
-[dir="rtl"] {
-  .label,
-  .text-link {
-    letter-spacing: 0;
-  }
-
-  .heading {
-    font-weight: 500;
-    line-height: 1.22;
-    letter-spacing: 0;
-  }
-
-  .line {
-    clip-path: inset(-0.9em -1em -0.6em -1em);
-  }
-
-  .body-text {
-    line-height: 1.75;
-  }
-}
-
-/* ---------- Skrol: zakačene sekcije ----------
-   .pin ostaje zakačen dok ga sledeća sekcija ne prekrije.
-   --pin-h postavlja SmoothScroll, pa radi i za sekcije više od ekrana. */
-
-.stack {
-  position: relative;
-}
-
-.pin {
-  position: sticky;
-  top: min(0px, calc(100svh - var(--pin-h, 100svh)));
-}
-
-.anchor {
-  display: block;
-  height: 0;
-}
-
-// Pauza: zakačena sekcija ostaje na ekranu dok se ovaj prostor ne odskroluje,
-// pa tek onda sledeća sekcija kreće preko nje.
-.hold {
-  height: 50svh;
-
-  @media (max-width: 900px) {
-    height: 30svh;
+    transform: rotate(90deg);
   }
 }
 

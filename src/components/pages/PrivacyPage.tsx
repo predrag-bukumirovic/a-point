@@ -1,13 +1,12 @@
-import { getDictionary } from "@/content";
-import type { Locale } from "@/content/site";
+import { dictionary } from "@/content";
 import SiteFrame from "../SiteFrame";
 import styles from "./PrivacyPage.module.scss";
 
-export default function PrivacyPage({ locale }: { locale: Locale }) {
-  const { privacyPage: p } = getDictionary(locale);
+export default function PrivacyPage() {
+  const { privacyPage: p } = dictionary;
 
   return (
-    <SiteFrame locale={locale} header="solid">
+    <SiteFrame header="solid">
       <article className={styles.page}>
         <h1 className="heading">{p.title}</h1>
         <p className={styles.updated}>{p.updated}</p>

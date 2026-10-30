@@ -1,11 +1,10 @@
-import { getDictionary } from "@/content";
-import { CONTACT, localePath, telHref, whatsappHref, type Locale } from "@/content/site";
+import { dictionary } from "@/content";
+import { CONTACT, telHref, whatsappHref } from "@/content/site";
 import { Arrow, Heading, TextLink, delay } from "./ui";
 import styles from "./Contact.module.scss";
 
-/** Načini kontakta; prikazuju se samo oni koji su upisani u CONTACT (site.ts). */
-export function ContactMethods({ locale }: { locale: Locale }) {
-  const { ui, contact } = getDictionary(locale);
+export function ContactMethods({ compact }: { compact?: boolean }) {
+  const { ui, contact } = dictionary;
 
   const methods = [
     CONTACT.whatsapp && {
@@ -14,32 +13,45 @@ export function ContactMethods({ locale }: { locale: Locale }) {
       href: whatsappHref(CONTACT.whatsapp, ui.whatsappMessage),
       external: true,
     },
-    CONTACT.phone && { label: ui.call, value: CONTACT.phone, href: telHref(CONTACT.phone), ltr: true },
-    CONTACT.email && { label: ui.email, value: CONTACT.email, href: `mailto:${CONTACT.email}`, ltr: true },
+    CONTACT.phone && {
+      label: ui.call,
+      value: CONTACT.phone,
+      href: telHref(CONTACT.phone),
+    },
+    CONTACT.email && {
+      label: ui.email,
+      value: CONTACT.email,
+      href: `mailto:${CONTACT.email}`,
+    },
     {
       label: ui.instagram,
       value: CONTACT.instagramHandle,
       title: contact.instagramDm,
       href: CONTACT.instagramDm,
       external: true,
-      ltr: true,
     },
-  ].filter(Boolean) as { label: string; value: string; href: string; title?: string; external?: boolean; ltr?: boolean }[];
+  ].filter(Boolean) as {
+    label: string;
+    value: string;
+    href: string;
+    title?: string;
+    external?: boolean;
+  }[];
 
   return (
-    <ul className={styles.methods}>
+    <ul className={`${styles.methods} ${compact ? styles.compact : ""}`}>
       {methods.map((m, i) => (
         <li key={m.label} className="r-fade" style={delay(0.15 + i * 0.08)}>
           <a
             href={m.href}
             title={m.title}
             className={styles.method}
-            {...(m.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            {...(m.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
           >
             <span className={styles.methodLabel}>{m.label}</span>
-            <span className={styles.methodValue} dir={m.ltr ? "ltr" : undefined}>
-              {m.value}
-            </span>
+            <span className={styles.methodValue}>{m.value}</span>
             <Arrow className={styles.methodArrow} />
           </a>
         </li>
@@ -48,9 +60,8 @@ export function ContactMethods({ locale }: { locale: Locale }) {
   );
 }
 
-/** Kontakt na početnoj: uvod i studiji levo, načini kontakta i link ka formi desno. */
-export default function Contact({ locale }: { locale: Locale }) {
-  const { contact } = getDictionary(locale);
+export default function Contact() {
+  const { contact } = dictionary;
 
   return (
     <section className={styles.contact}>
@@ -75,9 +86,9 @@ export default function Contact({ locale }: { locale: Locale }) {
 
       <div className={styles.side} data-reveal>
         <p className="label r-fade">{contact.methodsLabel}</p>
-        <ContactMethods locale={locale} />
+        <ContactMethods />
         <TextLink
-          href={localePath(locale, "/contact")}
+          href="/contact"
           label={contact.enquiryCta}
           className={`${styles.enquiry} r-fade`}
           style={delay(0.5)}
